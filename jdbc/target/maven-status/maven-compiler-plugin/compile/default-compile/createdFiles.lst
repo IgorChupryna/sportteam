@@ -1,0 +1,9 @@
+com\sport\team\entity\User.class
+com\sport\team\entity\Donation.class
+com\sport\team\entity\Tool.class
+com\sport\team\entity\Community.class
+com\sport\team\BasicJdbcDemo.class
+com\sport\team\entity\ServiceEvent.class
+com\sport\team\entity\Project.class
+com\sport\team\entity\Skill.class
+com\sport\team\entity\Comment.class
