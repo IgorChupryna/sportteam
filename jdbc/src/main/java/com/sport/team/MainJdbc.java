@@ -1,4 +1,7 @@
 package com.sport.team;
+/**
+ * I Chupryna
+ */
 
 import com.sport.team.entity.Skill;
 import com.sport.team.entity.Tool;
@@ -19,7 +22,6 @@ public class MainJdbc {
      * @param args the arguments
      */
     public static void main(String[] args) {
-
         try {
 
             initDb();
