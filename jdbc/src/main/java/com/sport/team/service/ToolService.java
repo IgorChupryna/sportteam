@@ -44,7 +44,7 @@ public class ToolService implements MainService<Tool> {
      * @param tool the tool
      * @throws SQLException the SQL exception
      *
-     * 
+     *
      */
     @Override
     public void set(Tool tool) {
