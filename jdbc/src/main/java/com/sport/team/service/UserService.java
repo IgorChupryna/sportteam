@@ -1,20 +1,24 @@
-package com.sport.team;
+package com.sport.team.service;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.sport.team.MainJdbc;
 import com.sport.team.entity.Skill;
 import com.sport.team.entity.Tool;
 import com.sport.team.entity.User;
+import com.sport.team.interfaces.MainService;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * The Class BasicJdbcDemo.
  *
  * @author aleksey
  */
-public class BasicJdbcDemo {
+public class UserService implements MainService<User> {
+
+
+
 
 
     /**
@@ -23,13 +27,14 @@ public class BasicJdbcDemo {
      * @param user the user
      * @throws SQLException the SQL exception
      */
-    private static void insertUser(User user) throws SQLException {
+    @Override
+    public void add(User user) throws SQLException {
 
         Connection conn = null;
         PreparedStatement stmt = null;
 
-        try{
-            conn = connection();
+        try {
+            conn = MainJdbc.connection();
 
             stmt = conn.prepareStatement("INSERT INTO Users VALUES(?, ?, ?, ?)");
             stmt.setInt(1, user.getId());
@@ -56,7 +61,7 @@ public class BasicJdbcDemo {
         } catch (Exception e) {
             e.printStackTrace();
 
-            if(conn != null)
+            if (conn != null)
                 conn.rollback();
 
         } finally {
@@ -67,55 +72,16 @@ public class BasicJdbcDemo {
     }
 
     /**
-     * Insert tool.
+     * Update user.
      *
-     * @param tool the tool
+     * @param user the user
      * @throws SQLException the SQL exception
      */
-    private static void insertTool(Tool tool) throws SQLException {
+    @Override
+    public void set(User user) {
 
-        PreparedStatement stmt = null;
-
-        try(Connection conn = connection()){
-
-            stmt = conn.prepareStatement("INSERT INTO Tools VALUES(?, ?)");
-            stmt.setInt(1, tool.getId());
-            stmt.setString(2, tool.getName());
-            stmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
     }
 
-    /**
-     * Insert skill.
-     *
-     * @param skill the skill
-     * @throws SQLException the SQL exception
-     */
-    private static void insertSkill(Skill skill) throws SQLException {
-
-        PreparedStatement stmt = null;
-
-        try(Connection conn = connection()){
-
-            stmt = conn.prepareStatement("INSERT INTO Skills VALUES(?, ?)");
-            stmt.setInt(1, skill.getId());
-            stmt.setString(2, skill.getName());
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-    }
 
     /**
      * Gets the user.
@@ -124,12 +90,12 @@ public class BasicJdbcDemo {
      * @return the user
      * @throws SQLException the SQL exception
      */
-    private static User getUser(int id) throws SQLException {
-
+    @Override
+    public User get(int id) throws SQLException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        try (Connection conn = connection()){
+        try (Connection conn = MainJdbc.connection()) {
 
             stmt = conn.prepareStatement("SELECT Users.id, Users.name, Users.email, Users.phone FROM Users WHERE Users.id =?");
             stmt.setInt(1, id);
@@ -186,25 +152,4 @@ public class BasicJdbcDemo {
             }
         }
     }
-
-    /**
-     * Connection.
-     *
-     * @return the connection
-     * @throws SQLException           the SQL exception
-     * @throws ClassNotFoundException the class not found exception
-     */
-    private static Connection connection() throws SQLException, ClassNotFoundException {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl("jdbc:mysql://10.91.63.108:3306/userdb");
-        dataSource.setUser("monty");
-        dataSource.setPassword("totoadmin");
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUser(), "totoadmin");
-        conn.setAutoCommit(true);
-        return conn;
-    }
-
-
 }

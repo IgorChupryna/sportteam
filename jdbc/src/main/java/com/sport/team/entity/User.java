@@ -19,18 +19,20 @@ public class User {
 
 	/** The phone. */
 	private String phone;
-	
+
+	/** The skills. */
+	private List<Skill> skills;
+
+	/** The tools. */
+	private List<Tool> tools;
+
+
+
 	/** The community memberships. */
 	private List<Community> communityMemberships = new ArrayList<Community>();
 	
 	/** The communities created. */
 	private List<Community> communitiesCreated = new ArrayList<Community>();
-	
-	/** The skills. */
-	private List<Skill> skills;
-	
-	/** The tools. */
-	private List<Tool> tools;
 	
 	/** The donations. */
 	private List<Donation> donations = new ArrayList<Donation>();
@@ -49,7 +51,13 @@ public class User {
 	
 	/** The service events organized. */
 	private List<ServiceEvent> serviceEventsOrganized = new ArrayList<ServiceEvent>();
-	
+
+
+
+
+
+
+
 	/**
 	 * Gets the id.
 	 *

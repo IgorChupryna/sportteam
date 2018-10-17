@@ -22,6 +22,10 @@ public class Comment {
 	/** The project. */
 	private Project project;
 
+
+
+
+
 	/**
 	 * Gets the date added.
 	 *

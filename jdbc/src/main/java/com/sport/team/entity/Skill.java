@@ -1,11 +1,10 @@
 package com.sport.team.entity;
 
-
 /**
  * The Class Skill.
  */
 public class Skill {
-	
+	public final static String TABLE_NAME="Skill";
 	/** The id. */
 	private int id;
 
