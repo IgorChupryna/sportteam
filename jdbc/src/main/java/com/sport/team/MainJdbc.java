@@ -146,10 +146,101 @@ public class MainJdbc {
             stmt = conn.prepareStatement("CREATE TABLE Users_Skills(userId INT, skillId INT, "
                     + "PRIMARY KEY(userId, skillId))");
             stmt.executeUpdate();
+            stmt.close();
 
-            //stmt.close();
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Comment");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Comment(id INT PRIMARY KEY, dateAdded VARCHAR(255), text VARCHAR(255))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Comments");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users_Comments(userId INT, commentId INT, "
+                    + "PRIMARY KEY(userId, commentId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Community");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Community(id INT PRIMARY KEY, name VARCHAR(255))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Community_Memberships");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Memberships(userId INT, communityId INT, "
+                    + "PRIMARY KEY(userId, communityId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Community_Created");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Created(userId INT, communityId INT, "
+                    + "PRIMARY KEY(userId, communityId))");
+            stmt.executeUpdate();
+            stmt.close();
 
 
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Donation");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Donation(id INT PRIMARY KEY, amount BIGINT(64), dateAdded VARCHAR(255))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_Donation");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE User_Donation(userId INT, donationId INT, "
+                    + "PRIMARY KEY(userId, donationId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS serviceEventsOrganized");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE serviceEventsOrganized(id INT PRIMARY KEY, amount BIGINT(64), dateAdded VARCHAR(255))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_serviceEventsOrganized");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+
+            stmt = conn.prepareStatement("CREATE TABLE User_serviceEventsOrganized(userId INT, serviceEventsOrganizedtId INT, "
+                    + "PRIMARY KEY(userId, serviceEventsOrganizedId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+
+
+
+
+
+
+
+        //    stmt.close();
 
             conn.commit();
         } catch (Exception e) {

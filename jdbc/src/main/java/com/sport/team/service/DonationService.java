@@ -5,7 +5,7 @@ import com.sport.team.interfaces.MainService;
 
 import java.sql.SQLException;
 
-public class DonationtService implements MainService<Donation> {
+public class DonationService implements MainService<Donation> {
     @Override
     public void add(Donation donation) throws SQLException {
 

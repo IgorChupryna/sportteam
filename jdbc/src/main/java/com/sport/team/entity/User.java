@@ -26,16 +26,18 @@ public class User {
 	/** The tools. */
 	private List<Tool> tools;
 
+	/** The comments. */
+	private List<Comment> comments ;
 
 
 	/** The community memberships. */
-	private List<Community> communityMemberships = new ArrayList<Community>();
-	
+	private List<Community> communityMemberships;
+
 	/** The communities created. */
-	private List<Community> communitiesCreated = new ArrayList<Community>();
+	private List<Community> communitiesCreated;
 	
 	/** The donations. */
-	private List<Donation> donations = new ArrayList<Donation>();
+	private List<Donation> donations ;
 	
 	/** The projects submitted. */
 	private List<Project> projectsSubmitted = new ArrayList<Project>();
@@ -46,8 +48,7 @@ public class User {
 	/** The projects volunteered. */
 	private List<Project> projectsVolunteered = new ArrayList<Project>();
 	
-	/** The comments. */
-	private List<Comment> comments = new ArrayList<Comment>();
+
 	
 	/** The service events organized. */
 	private List<ServiceEvent> serviceEventsOrganized = new ArrayList<ServiceEvent>();
