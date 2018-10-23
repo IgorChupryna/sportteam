@@ -5,9 +5,7 @@ import com.sport.team.entity.Skill;
 import com.sport.team.entity.Tool;
 import com.sport.team.entity.User;
 import com.sport.team.interfaces.MainService;
-import com.sport.team.service.SkillService;
-import com.sport.team.service.ToolService;
-import com.sport.team.service.UserService;
+import com.sport.team.service.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +22,12 @@ public class MainJdbc {
         try {
             MainService service=null;
 
+
+
             initDb();
+
+
+
 
             service=new ToolService();
             Tool tool = new Tool();
@@ -93,167 +96,14 @@ public class MainJdbc {
      */
     public static void initDb() throws SQLException {
 
-        Connection conn = null;
-        PreparedStatement stmt = null;
-
-        try {
-            conn = MainJdbc.connection();
-
-            conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            conn.setAutoCommit(false);
-
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Users(id INT PRIMARY KEY, name VARCHAR(255), "
-                    + "email VARCHAR(255), phone VARCHAR(255))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Tools");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Tools(id INT PRIMARY KEY, name VARCHAR(255))");
-            stmt.executeUpdate();
-            stmt.close();
-
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Skills");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Skills(id INT PRIMARY KEY, name VARCHAR(255))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Tools");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Users_Tools(userId INT, toolId INT, "
-                    + "PRIMARY KEY(userId, toolId))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Skills");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Users_Skills(userId INT, skillId INT, "
-                    + "PRIMARY KEY(userId, skillId))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Comment");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Comment(id INT PRIMARY KEY, dateAdded VARCHAR(255), text VARCHAR(255))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Comments");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Users_Comments(userId INT, commentId INT, "
-                    + "PRIMARY KEY(userId, commentId))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Community");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Community(id INT PRIMARY KEY, name VARCHAR(255))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Community_Memberships");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Memberships(userId INT, communityId INT, "
-                    + "PRIMARY KEY(userId, communityId))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Community_Created");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Created(userId INT, communityId INT, "
-                    + "PRIMARY KEY(userId, communityId))");
-            stmt.executeUpdate();
-            stmt.close();
-
-
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Donation");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Donation(id INT PRIMARY KEY, amount BIGINT(64), dateAdded VARCHAR(255))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_Donation");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE User_Donation(userId INT, donationId INT, "
-                    + "PRIMARY KEY(userId, donationId))");
-            stmt.executeUpdate();
-            stmt.close();
-
-
-
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS serviceEventsOrganized");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE serviceEventsOrganized(id INT PRIMARY KEY, amount BIGINT(64), dateAdded VARCHAR(255))");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_serviceEventsOrganized");
-            stmt.executeUpdate();
-            stmt.close();
-
-
-
-            stmt = conn.prepareStatement("CREATE TABLE User_serviceEventsOrganized(userId INT, serviceEventsOrganizedtId INT, "
-                    + "PRIMARY KEY(userId, serviceEventsOrganizedId))");
-            stmt.executeUpdate();
-            stmt.close();
-
-
-
-
-
-
-
-
-
-        //    stmt.close();
-
-            conn.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            conn.rollback();
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
+        ToolService.initDb();
+        SkillService.initDb();
+        CommentService.initDb();
+        CommunityService.initDb();
+        DonationService.initDb();
+        ServiceEventService.initDb();
+        UserService.initDb();
+        ProjectService.initDb();
 
     }
 

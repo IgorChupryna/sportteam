@@ -29,7 +29,6 @@ public class User {
 	/** The comments. */
 	private List<Comment> comments ;
 
-
 	/** The community memberships. */
 	private List<Community> communityMemberships;
 
@@ -40,24 +39,16 @@ public class User {
 	private List<Donation> donations ;
 	
 	/** The projects submitted. */
-	private List<Project> projectsSubmitted = new ArrayList<Project>();
+	private List<Project> projectsSubmitted ;
 	
 	/** The projects organized. */
-	private List<Project> projectsOrganized = new ArrayList<Project>();
+	private List<Project> projectsOrganized ;
 	
 	/** The projects volunteered. */
-	private List<Project> projectsVolunteered = new ArrayList<Project>();
-	
+	private List<Project> projectsVolunteered;
 
-	
 	/** The service events organized. */
-	private List<ServiceEvent> serviceEventsOrganized = new ArrayList<ServiceEvent>();
-
-
-
-
-
-
+	private List<ServiceEvent> serviceEventsOrganized ;
 
 	/**
 	 * Gets the id.

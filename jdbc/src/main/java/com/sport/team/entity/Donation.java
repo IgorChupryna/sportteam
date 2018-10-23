@@ -1,6 +1,6 @@
 package com.sport.team.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * The Class Donation.

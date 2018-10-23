@@ -17,9 +17,143 @@ import java.util.ArrayList;
  */
 public class UserService implements MainService<User> {
 
+    /**
+     * Inits the db User tables.
+     *
+     * @throws SQLException the SQL exception
+     */
+    public static void initDb() throws SQLException {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = MainJdbc.connection();
+
+            conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            conn.setAutoCommit(false);
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users(id INT PRIMARY KEY, name VARCHAR(255), "
+                    + "email VARCHAR(255), phone VARCHAR(255))");
+            stmt.executeUpdate();
+            stmt.close();
 
 
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Tools");
+            stmt.executeUpdate();
+            stmt.close();
 
+            stmt = conn.prepareStatement("CREATE TABLE Users_Tools(userId INT, toolId INT, "
+                    + "PRIMARY KEY(userId, toolId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Skills");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users_Skills(userId INT, skillId INT, "
+                    + "PRIMARY KEY(userId, skillId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Comments");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users_Comments(userId INT, commentId INT, "
+                    + "PRIMARY KEY(userId, commentId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Community_Memberships");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Memberships(userId INT, communityId INT, "
+                    + "PRIMARY KEY(userId, communityId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Users_Community_Created");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Created(userId INT, communityId INT, "
+                    + "PRIMARY KEY(userId, communityId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_Donation");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE User_Donation(userId INT, donationId INT, "
+                    + "PRIMARY KEY(userId, donationId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_serviceEventsOrganized");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            stmt = conn.prepareStatement("CREATE TABLE User_serviceEventsOrganized(userId INT, serviceEventsOrganizedtId INT, "
+                    + "PRIMARY KEY(userId, serviceEventsOrganizedtId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_projectsSubmitted");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE User_projectsSubmitted(userId INT, projectId INT, "
+                    + "PRIMARY KEY(userId, projectId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_projectsOrganized");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE User_projectsOrganized(userId INT, projectId INT, "
+                    + "PRIMARY KEY(userId, projectId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_projectsVolunteered");
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("CREATE TABLE User_projectsVolunteered(userId INT, projectId INT, "
+                    + "PRIMARY KEY(userId, projectId))");
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            conn.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            conn.rollback();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+    }
 
     /**
      * Insert user.
@@ -43,6 +177,73 @@ public class UserService implements MainService<User> {
             stmt.setString(4, user.getPhone());
             stmt.executeUpdate();
             stmt.close();
+
+            addTables(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (conn != null)
+                conn.rollback();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    /**
+     * Update user.
+     *
+     * @param user the user
+     * @throws SQLException the SQL exception
+     */
+    @Override
+    public void set(User user) throws SQLException {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = MainJdbc.connection();
+            stmt = conn.prepareStatement("UPDATE Users SET Users.name=?,Users.email=?,Users.phone=? WHERE Users.id=?");
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPhone());
+            stmt.setInt(4, user.getId());
+
+            stmt.executeUpdate();
+            stmt.close();
+
+            delTables(user);
+            addTables(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (conn != null)
+                conn.rollback();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+    }
+
+    /**
+     * Add additional tables.
+     *
+     * @param user the user
+     * @throws SQLException the SQL exception
+     */
+    private void addTables(User user) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = MainJdbc.connection();
 
             for (Tool tool : user.getTools()) {
                 stmt = conn.prepareStatement("INSERT INTO Users_Tools VALUES(?, ?)");
@@ -72,16 +273,37 @@ public class UserService implements MainService<User> {
     }
 
     /**
-     * Update user.
+     * Delete additional tables.
      *
      * @param user the user
      * @throws SQLException the SQL exception
      */
-    @Override
-    public void set(User user) {
+    private void delTables(User user) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
 
+        try {
+            conn = MainJdbc.connection();
+
+            stmt = conn.prepareStatement("DELETE FROM Users_Tools  WHERE Users_Tools.toolId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Users_Skills  WHERE Users_Skills.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (conn != null)
+                conn.rollback();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
     }
-
 
     /**
      * Gets the user.
@@ -139,6 +361,7 @@ public class UserService implements MainService<User> {
                 user.getSkills().add(skill);
             }
 
+
             return user;
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,6 +370,63 @@ public class UserService implements MainService<User> {
             if (rs != null) {
                 rs.close();
             }
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    /**
+     * Delete user.
+     *
+     * @param user the user
+     * @throws SQLException the SQL exception
+     */
+    @Override
+    public void del(User user) throws SQLException {
+        PreparedStatement stmt = null;
+
+        try (Connection conn = MainJdbc.connection()) {
+
+            stmt = conn.prepareStatement("DELETE FROM Users  WHERE Users.id=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            delTables(user);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+
+    }
+
+    /**
+     * Delete user.
+     *
+     * @param id the user
+     * @throws SQLException the SQL exception
+     */
+    @Override
+    public void del(int id) throws SQLException {
+        PreparedStatement stmt = null;
+
+        try (Connection conn = MainJdbc.connection()) {
+
+            stmt = conn.prepareStatement("DELETE FROM Users  WHERE Users.id=" + id);
+            stmt.executeUpdate();
+            stmt.close();
+
+            delTables(get(id));
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             if (stmt != null) {
                 stmt.close();
             }
