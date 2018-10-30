@@ -22,12 +22,7 @@ public class MainJdbc {
         try {
             MainService service=null;
 
-
-
             initDb();
-
-
-
 
             service=new ToolService();
             Tool tool = new Tool();
@@ -58,10 +53,10 @@ public class MainJdbc {
             user.setTools(tools);
             user.setSkills(skills);
 
-            service.add(user);
+            //service.add(user);
 
-            user = (User) service.get(1);
-            System.out.println(user.toString());
+            //user = (User) service.get(1);
+            //System.out.println(user.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

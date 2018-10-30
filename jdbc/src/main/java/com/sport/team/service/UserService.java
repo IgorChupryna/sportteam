@@ -1,9 +1,7 @@
 package com.sport.team.service;
 
 import com.sport.team.MainJdbc;
-import com.sport.team.entity.Skill;
-import com.sport.team.entity.Tool;
-import com.sport.team.entity.User;
+import com.sport.team.entity.*;
 import com.sport.team.interfaces.MainService;
 
 import java.sql.*;
@@ -101,13 +99,13 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_serviceEventsOrganized");
+            stmt = conn.prepareStatement("DROP TABLE IF EXISTS User_Service_EO");
             stmt.executeUpdate();
             stmt.close();
 
 
-            stmt = conn.prepareStatement("CREATE TABLE User_serviceEventsOrganized(userId INT, serviceEventsOrganizedtId INT, "
-                    + "PRIMARY KEY(userId, serviceEventsOrganizedtId))");
+            stmt = conn.prepareStatement("CREATE TABLE User_Service_EO(userId INT, serviceEOId INT, "
+                    + "PRIMARY KEY(userId, serviceEOId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -258,7 +256,73 @@ public class UserService implements MainService<User> {
                 stmt.setInt(1, user.getId());
                 stmt.setInt(2, skill.getId());
                 stmt.executeUpdate();
+                stmt.close();
             }
+
+            for (Comment comment : user.getComments()) {
+                stmt = conn.prepareStatement("INSERT INTO Users_Comments VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, comment.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+            for (Community community : user.getCommunitiesCreated()) {
+                stmt = conn.prepareStatement("INSERT INTO Users_Community_Created VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, community.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (Community community : user.getCommunityMemberships()) {
+                stmt = conn.prepareStatement("INSERT INTO Users_Community_Memberships VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, community.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (Donation donation : user.getDonations()) {
+                stmt = conn.prepareStatement("INSERT INTO User_Donation VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, donation.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (Project project : user.getProjectsOrganized()) {
+                stmt = conn.prepareStatement("INSERT INTO User_projectsOrganized VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, project.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (Project project : user.getProjectsSubmitted()) {
+                stmt = conn.prepareStatement("INSERT INTO User_projectsSubmitted VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, project.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (Project project : user.getProjectsVolunteered()) {
+                stmt = conn.prepareStatement("INSERT INTO User_projectsVolunteered VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, project.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (ServiceEvent serviceEvent : user.getServiceEventsOrganized()) {
+                stmt = conn.prepareStatement("INSERT INTO User_Service_EO VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, serviceEvent.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -292,6 +356,42 @@ public class UserService implements MainService<User> {
             stmt = conn.prepareStatement("DELETE FROM Users_Skills  WHERE Users_Skills.userId=" + user.getId());
             stmt.executeUpdate();
             stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Users_Community_Memberships  WHERE Users_Community_Memberships.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Users_Community_Created  WHERE Users_Community_Created.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Users_Comments  WHERE Users_Comments.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM User_Service_EO  WHERE User_Service_EO.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM User_projectsVolunteered  WHERE User_projectsVolunteered.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM User_projectsSubmitted  WHERE User_projectsSubmitted.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM User_projectsOrganized  WHERE User_projectsOrganized.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM User_Donation  WHERE User_Donation.userId=" + user.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -337,29 +437,118 @@ public class UserService implements MainService<User> {
             user.setTools(new ArrayList<Tool>());
             user.setSkills(new ArrayList<Skill>());
 
-            stmt = conn.prepareStatement("SELECT Tools.id, Tools.name FROM Tools, Users_Tools "
+            stmt = conn.prepareStatement("SELECT Tools.id FROM Tools, Users_Tools "
                     + "WHERE Users_Tools.userId=? AND Users_Tools.toolId=Tools.id");
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Tool tool = new Tool();
-                tool.setId(rs.getInt(1));
-                tool.setName(rs.getString(2));
+                Tool tool = new ToolService().get(rs.getInt(1));
                 user.getTools().add(tool);
             }
             rs.close();
             stmt.close();
 
-            stmt = conn.prepareStatement("SELECT Skills.id, Skills.name FROM Skills, Users_Skills "
+            stmt = conn.prepareStatement("SELECT Skills.id FROM Skills, Users_Skills "
                     + "WHERE Users_Skills.userId=? AND Users_Skills.skillId=Skills.id");
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                Skill skill = new Skill();
-                skill.setId(rs.getInt(1));
-                skill.setName(rs.getString(2));
+                Skill skill = new SkillService().get(rs.getInt(1));
                 user.getSkills().add(skill);
             }
+
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Comment.id FROM Comment, Users_Comments "
+                    + "WHERE Users_Comments.userId=? AND Users_Comments.commentId=Comment.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Comment comment = new CommentService().get(rs.getInt(1));
+                user.getComments().add(comment);
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Community.id FROM Community, Users_Community_Created "
+                    + "WHERE Users_Community_Created.userId=? AND Users_Community_Created.communityId=Community.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Community community = new CommunityService().get(rs.getInt(1));
+                user.getCommunitiesCreated().add(community);
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Community.id FROM Community, Users_Community_Memberships "
+                    + "WHERE Users_Community_Memberships.userId=? AND Users_Community_Memberships.communityId=Community.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Community community = new CommunityService().get(rs.getInt(1));
+                user.getCommunityMemberships().add(community);
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Donation.id FROM Donation, User_Donation "
+                    + "WHERE User_Donation.userId=? AND User_Donation.donationId=Donation.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Donation donation = new DonationService().get(rs.getInt(1));
+                user.getDonations().add(donation);
+            }
+            rs.close();
+            stmt.close();
+
+
+            stmt = conn.prepareStatement("SELECT Service_EO.id FROM Service_EO, User_Service_EO "
+                    + "WHERE User_Service_EO.userId=? AND User_Service_EO.serviceEOId=Service_EO.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                ServiceEvent serviceEvent = new ServiceEventService().get(rs.getInt(1));
+                user.getServiceEventsOrganized().add(serviceEvent);
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Project.id FROM Project, User_projectsOrganized "
+                    + "WHERE User_projectsOrganized.userId=? AND User_projectsOrganized.projectId=Project.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Project project = new ProjectService().get(rs.getInt(1));
+                user.getProjectsOrganized().add(project);
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Project.id FROM Project, User_projectsSubmitted "
+                    + "WHERE User_projectsSubmitted.userId=? AND User_projectsSubmitted.projectId=Project.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Project project = new ProjectService().get(rs.getInt(1));
+                user.getProjectsSubmitted().add(project);
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Project.id FROM Project, User_projectsVolunteered "
+                    + "WHERE User_projectsVolunteered.userId=? AND User_projectsVolunteered.projectId=Project.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Project project = new ProjectService().get(rs.getInt(1));
+                user.getProjectsVolunteered().add(project);
+            }
+            rs.close();
+            stmt.close();
+
 
 
             return user;

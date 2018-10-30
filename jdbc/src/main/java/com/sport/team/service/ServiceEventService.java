@@ -1,8 +1,10 @@
 package com.sport.team.service;
 
 import com.sport.team.MainJdbc;
+import com.sport.team.entity.Community;
 import com.sport.team.entity.Project;
 import com.sport.team.entity.ServiceEvent;
+import com.sport.team.entity.User;
 import com.sport.team.interfaces.MainService;
 
 import java.sql.Connection;
@@ -12,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ServiceEventService implements MainService<ServiceEvent> {
-
 
     /**
      * Inits the db User tables.
@@ -63,9 +64,7 @@ public class ServiceEventService implements MainService<ServiceEvent> {
                 conn.close();
             }
         }
-
     }
-
 
     /**
      * Insert serviceEvent.
@@ -85,7 +84,7 @@ public class ServiceEventService implements MainService<ServiceEvent> {
             stmt.setInt(1, serviceEvent.getId());
             stmt.setString(2, serviceEvent.getName());
             stmt.setString(3, serviceEvent.getDescription());
-            stmt.setDate(4,  new java.sql.Date(serviceEvent.getDate().getTimeInMillis()));
+            stmt.setDate(4, new java.sql.Date(serviceEvent.getDate().getTimeInMillis()));
 
             stmt.executeUpdate();
             stmt.close();
@@ -121,7 +120,7 @@ public class ServiceEventService implements MainService<ServiceEvent> {
             stmt = conn.prepareStatement("UPDATE Service_EO SET Service_EO.name=?,Service_EO.description=?,Service_EO.date=? WHERE  Service_EO.id=?");
             stmt.setString(1, serviceEvent.getName());
             stmt.setString(2, serviceEvent.getDescription());
-            stmt.setDate(3,  new java.sql.Date(serviceEvent.getDate().getTimeInMillis()));
+            stmt.setDate(3, new java.sql.Date(serviceEvent.getDate().getTimeInMillis()));
             stmt.setInt(4, serviceEvent.getId());
 
 
@@ -142,7 +141,7 @@ public class ServiceEventService implements MainService<ServiceEvent> {
             }
         }
     }
-    
+
     /**
      * Gets the serviceEvent.
      *
@@ -163,7 +162,7 @@ public class ServiceEventService implements MainService<ServiceEvent> {
 
             rs.next();
 
-            ServiceEvent serviceEvent  = new ServiceEvent();
+            ServiceEvent serviceEvent = new ServiceEvent();
 
             serviceEvent.setId(rs.getInt(1));
             serviceEvent.setName(rs.getString(2));
@@ -175,31 +174,36 @@ public class ServiceEventService implements MainService<ServiceEvent> {
 
             serviceEvent.setProjects(new ArrayList<Project>());
 
-
-            stmt = conn.prepareStatement("SELECT Project.id, Project.address1, Project.address2, Project.dateAdded," +
-                    "Project.phone, Project.email, Project.city, Project.description, Project.firstname, Project.lastname, Project.state, Project.title, Project.zip" +
-                    " FROM Project, Project_serviceEvent "
+            stmt = conn.prepareStatement("SELECT Project.id, FROM Project, Project_serviceEvent "
                     + "WHERE Project_serviceEvent.serviceEventId=? AND Project_serviceEvent.projectId=Project.id");
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
 
-
             while (rs.next()) {
-
                 Project project = new ProjectService().get(rs.getInt(1));
-
-
                 serviceEvent.getProjects().add(project);
             }
             rs.close();
             stmt.close();
 
+            stmt = conn.prepareStatement("SELECT Users.id, FROM Users, User_Service_EO "
+                    + "WHERE User_Service_EO.serviceEOId=? AND User_Service_EO.userId=Users.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
 
+            User organizer = new UserService().get(rs.getInt(1));
+            serviceEvent.setOrganizer(organizer);
 
+            rs.close();
+            stmt.close();
 
+            stmt = conn.prepareStatement("SELECT Community.id, FROM Community, Service_EO_community "
+                    + "WHERE Service_EO_community.serviceEOId=? AND Service_EO_community.communityId=Community.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
 
-
-
+            Community community = new CommunityService().get(rs.getInt(1));
+            serviceEvent.setCommunity(community);
 
 
             return serviceEvent;
@@ -235,7 +239,6 @@ public class ServiceEventService implements MainService<ServiceEvent> {
             stmt.close();
 
             delTables(serviceEvent);
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -286,12 +289,27 @@ public class ServiceEventService implements MainService<ServiceEvent> {
         try {
             conn = MainJdbc.connection();
 
-            stmt = conn.prepareStatement("INSERT INTO Project_Donations VALUES(?, ?)");
-            stmt.setInt(1, serviceEvent.getId());
-            //stmt.setInt(2, serviceEvent.getProject().getId());
+            stmt = conn.prepareStatement("INSERT INTO User_Service_EO VALUES(?, ?)");
+            stmt.setInt(1, serviceEvent.getOrganizer().getId());
+            stmt.setInt(2, serviceEvent.getId());
             stmt.executeUpdate();
             stmt.close();
 
+            for (Project project : serviceEvent.getProjects()) {
+                stmt = conn.prepareStatement("INSERT INTO Project_serviceEvent VALUES(?, ?)");
+                stmt.setInt(1, project.getId());
+                stmt.setInt(2, serviceEvent.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            stmt = conn.prepareStatement("INSERT INTO Service_EO_community VALUES(?, ?)");
+            stmt.setInt(1, serviceEvent.getCommunity().getId());
+            stmt.setInt(2, serviceEvent.getId());
+            stmt.executeUpdate();
+
+
+            //stmt.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -319,10 +337,19 @@ public class ServiceEventService implements MainService<ServiceEvent> {
         try {
             conn = MainJdbc.connection();
 
-            stmt = conn.prepareStatement("DELETE FROM Project_Donations  WHERE Project_Donations.serviceEventId=" + serviceEvent.getId());
+            stmt = conn.prepareStatement("DELETE FROM User_Service_EO  WHERE User_Service_EOserviceEOId=" + serviceEvent.getId());
             stmt.executeUpdate();
             stmt.close();
 
+
+            stmt = conn.prepareStatement("DELETE FROM Project_serviceEvent  WHERE Project_serviceEvent.serviceEventId=" + serviceEvent.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Service_EO_community  WHERE Service_EO_community.serviceEOId=" + serviceEvent.getId());
+            stmt.executeUpdate();
+
+            //stmt.close();
 
         } catch (Exception e) {
             e.printStackTrace();
