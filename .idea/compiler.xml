@@ -7,10 +7,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jdbc" />
+        <module name="jpahibernate" />
+        <module name="servlet" />
+        <module name="Servlet" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="jdbc" target="1.8" />
+      <module name="jpahibernate" target="1.8" />
+      <module name="servlet" target="1.8" />
+      <module name="Servlet" target="1.5" />
       <module name="sportteam" target="1.8" />
     </bytecodeTargetLevel>
   </component>
