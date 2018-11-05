@@ -25,7 +25,6 @@ public class Comment {
 
 
 
-
 	/**
 	 * Gets the date added.
 	 *
