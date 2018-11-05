@@ -11,7 +11,6 @@ import java.util.Calendar;
 
 public class DonationService implements MainService<Donation> {
 
-
     /**
      * Inits the db Donation tables.
      *
@@ -52,7 +51,6 @@ public class DonationService implements MainService<Donation> {
 
     }
 
-
     /**
      * Insert donation.
      *
@@ -73,7 +71,8 @@ public class DonationService implements MainService<Donation> {
             stmt.setDouble(2, donation.getAmount());
             stmt.setDate(3, donation.getDateAdded());
             stmt.executeUpdate();
-            stmt.close();
+
+            // / stmt.close();
 
             addTables(donation);
         } catch (Exception e) {
@@ -89,7 +88,6 @@ public class DonationService implements MainService<Donation> {
         }
     }
 
-
     /**
      * Add additional tables.
      *
@@ -104,11 +102,17 @@ public class DonationService implements MainService<Donation> {
             conn = MainJdbc.connection();
 
             stmt = conn.prepareStatement("INSERT INTO Project_Donations VALUES(?, ?)");
-            stmt.setInt(1, donation.getId());
-            stmt.setInt(2, donation.getProject().getId());
+            stmt.setInt(1,donation.getProject().getId());
+            stmt.setInt(2, donation.getId());
             stmt.executeUpdate();
             stmt.close();
 
+            stmt = conn.prepareStatement("INSERT INTO User_Donation VALUES(?, ?)");
+            stmt.setInt(1, donation.getUser().getId());
+            stmt.setInt(2, donation.getId());
+            stmt.executeUpdate();
+
+            //stmt.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -130,6 +134,7 @@ public class DonationService implements MainService<Donation> {
      * @throws SQLException the SQL exception
      */
     private void delTables(Donation donation) throws SQLException {
+
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -140,6 +145,9 @@ public class DonationService implements MainService<Donation> {
             stmt.executeUpdate();
             stmt.close();
 
+            stmt = conn.prepareStatement("DELETE FROM User_Donation  WHERE User_Donation.donationId=" + donation.getId());
+            stmt.executeUpdate();
+            //stmt.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,7 +161,6 @@ public class DonationService implements MainService<Donation> {
             }
         }
     }
-
 
     /**
      * Update donation.
@@ -230,14 +237,8 @@ public class DonationService implements MainService<Donation> {
             donation.setAmount(rs.getDouble(2));
             donation.setDateAdded(rs.getDate(3));
 
-
             rs.close();
             stmt.close();
-
-            /**stmt = conn.prepareStatement("SELECT Project.id, Project.address1, Project.address2, Project.dateAdded," +
-             "Project.phone, Project.email, Project.city, Project.description, Project.firstname, Project.lastname, Project.state, Project.title, Project.zip" +
-             " FROM Project, Project_Donations "
-             + "WHERE Project_Donations.donationId=? AND Project_Donations.projectId=Project.id");**/
 
             stmt = conn.prepareStatement("SELECT Project.id FROM Project, Project_Donations WHERE Project_Donations.donationId=? AND Project_Donations.projectId=Project.id");
             stmt.setInt(1, id);

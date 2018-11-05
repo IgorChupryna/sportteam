@@ -1,13 +1,17 @@
 package com.sport.team.service;
 
 import com.sport.team.MainJdbc;
+import com.sport.team.entity.Comment;
+import com.sport.team.entity.Donation;
 import com.sport.team.entity.Project;
+import com.sport.team.entity.User;
 import com.sport.team.interfaces.MainService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProjectService implements MainService<Project> {
 
@@ -56,12 +60,12 @@ public class ProjectService implements MainService<Project> {
             stmt.executeUpdate();
             stmt.close();
 
+
             stmt = conn.prepareStatement("DROP TABLE IF EXISTS Project_imageUrls");
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Project_imageUrls(projectId INT, imageId INT, path VARCHAR(255) ,"
-                    + "PRIMARY KEY(projectId, imageId))");
+            stmt = conn.prepareStatement("CREATE TABLE Project_imageUrls(id INT PRIMARY KEY, projectId INT, path VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -69,7 +73,7 @@ public class ProjectService implements MainService<Project> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Project_serviceEvent(projectId INT, serviceEventId INT, path VARCHAR(255) ,"
+            stmt = conn.prepareStatement("CREATE TABLE Project_serviceEvent(projectId INT, serviceEventId INT, "
                     + "PRIMARY KEY(projectId, serviceEventId))");
             stmt.executeUpdate();
             stmt.close();
@@ -90,17 +94,107 @@ public class ProjectService implements MainService<Project> {
 
     }
 
-
+    /**
+     * Insert project.
+     *
+     * @param project the project
+     * @throws SQLException the SQL exception
+     */
     @Override
     public void add(Project project) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
 
+        try {
+            conn = MainJdbc.connection();
+
+            stmt = conn.prepareStatement("INSERT INTO Project VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            stmt.setInt(1, project.getId());
+            stmt.setString(2, project.getAddress1());
+            stmt.setString(3, project.getAddress2());
+            stmt.setString(4, project.getCity());
+            stmt.setDate(5, new java.sql.Date(project.getDateAdded().getTimeInMillis()));
+            stmt.setString(6, project.getDescription());
+            stmt.setString(7, project.getEmail());
+            stmt.setString(8, project.getFirstName());
+            stmt.setString(9, project.getLastName());
+            stmt.setString(10, project.getPhone());
+            stmt.setString(11, project.getState());
+            stmt.setString(12, project.getZip());
+            stmt.setString(13, project.getTitle());
+            stmt.executeUpdate();
+            stmt.close();
+
+            addTables(project);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (conn != null)
+                conn.rollback();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
     }
 
+    /**
+     * Update project.
+     *
+     * @param project the project
+     * @throws SQLException the SQL exception
+     */
     @Override
     public void set(Project project) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
 
+        try {
+            conn = MainJdbc.connection();
+            stmt = conn.prepareStatement("UPDATE Project  SET Project.address1=?, Project.address2=?, Project.dateAdded=?," +
+                    "Project.phone=?, Project.email=?, Project.city=?, Project.description=?, Project.firstname=?, Project.lastname=?, Project.state=?, Project.title=?, Project.zip=?" +
+                    " WHERE  Project.id=?");
+
+            stmt.setString(1, project.getAddress1());
+            stmt.setString(2, project.getAddress2());
+            stmt.setString(3, project.getCity());
+            stmt.setDate(4, new java.sql.Date(project.getDateAdded().getTimeInMillis()));
+            stmt.setString(5, project.getDescription());
+            stmt.setString(6, project.getEmail());
+            stmt.setString(7, project.getFirstName());
+            stmt.setString(8, project.getLastName());
+            stmt.setString(9, project.getPhone());
+            stmt.setString(10, project.getState());
+            stmt.setString(11, project.getZip());
+            stmt.setString(12, project.getTitle());
+            stmt.setInt(13, project.getId());
+
+            stmt.executeUpdate();
+            stmt.close();
+
+            delTables(project);
+            addTables(project);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (conn != null)
+                conn.rollback();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
     }
 
+    /**
+     * Gets the project.
+     *
+     * @param id the id
+     * @return the project
+     * @throws SQLException the SQL exception
+     */
     @Override
     public Project get(int id) throws SQLException {
         PreparedStatement stmt = null;
@@ -114,9 +208,6 @@ public class ProjectService implements MainService<Project> {
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             rs.next();
-
-
-
 
             Project project = new Project();
             project.setId(rs.getInt(1));
@@ -133,8 +224,81 @@ public class ProjectService implements MainService<Project> {
             project.setTitle(rs.getString(12));
             project.setZip(rs.getString(13));
 
+            rs.close();
+            stmt.close();
+
+            project.setVolunteers(new ArrayList<User>());
+
+            stmt = conn.prepareStatement("SELECT Users.id FROM Users, User_projectsVolunteered "
+                    + "WHERE User_projectsVolunteered.projectId=? AND User_projectsVolunteered.userId=Users.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                User user = new UserService().get(rs.getInt(1));
+                project.getVolunteers().add(user);
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Users.id FROM Users, User_projectsSubmitted "
+                    + "WHERE User_projectsSubmitted.projectId=? AND User_projectsSubmitted.userId=Users.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            User submitter = new UserService().get(rs.getInt(1));
+            project.setSubmitter(submitter);
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("SELECT Users.id FROM Users, User_projectsOrganized "
+                    + "WHERE User_projectsOrganized.projectId=? AND User_projectsOrganized.userId=Users.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            User organizer = new UserService().get(rs.getInt(1));
+            project.setOrganizer(organizer);
+            rs.close();
+            stmt.close();
+
+            project.setImageUrls(new ArrayList<>());
+            stmt = conn.prepareStatement("SELECT Project_imageUrls.path FROM Project_imageUrls "
+                    + "WHERE Project_imageUrls.projectId=?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                project.getImageUrls().add(rs.getString(3));
+            }
+            rs.close();
+            stmt.close();
+
+            project.setComments(new ArrayList<Comment>());
+
+            stmt = conn.prepareStatement("SELECT Comment.id FROM Comment, Project_Comments "
+                    + "WHERE Project_Comments.projectId=? AND Project_Comments.commentId=Comment.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Comment comment = new CommentService().get(rs.getInt(1));
+                project.getComments().add(comment);
+            }
+            rs.close();
+            stmt.close();
 
 
+            project.setDonations(new ArrayList<>());
+
+            stmt = conn.prepareStatement("SELECT Donation.id FROM Donation, Project_Donations "
+                    + "WHERE Project_Donations.projectId=? AND Project_Donations.projectId=Donation.id");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Donation donation = new DonationService().get(rs.getInt(1));
+                project.getDonations().add(donation);
+            }
 
             return project;
         } catch (Exception e) {
@@ -150,16 +314,185 @@ public class ProjectService implements MainService<Project> {
         }
 
 
-
     }
 
+    /**
+     * Delete project.
+     *
+     * @param project the project
+     * @throws SQLException the SQL exception
+     */
     @Override
     public void del(Project project) throws SQLException {
+        PreparedStatement stmt = null;
 
+        try (Connection conn = MainJdbc.connection()) {
+
+            stmt = conn.prepareStatement("DELETE FROM Project WHERE Project.id=" + project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            delTables(project);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
     }
 
+    /**
+     * Delete project.
+     *
+     * @param id the project
+     * @throws SQLException the SQL exception
+     */
     @Override
     public void del(int id) throws SQLException {
+        PreparedStatement stmt = null;
 
+        try (Connection conn = MainJdbc.connection()) {
+
+            stmt = conn.prepareStatement("DELETE FROM Project  WHERE Project.id=" + id);
+            stmt.executeUpdate();
+            stmt.close();
+
+            delTables(get(id));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
     }
+
+    /**
+     * Add additional tables.
+     *
+     * @param project the project
+     * @throws SQLException the SQL exception
+     */
+    private void addTables(Project project) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = MainJdbc.connection();
+
+            stmt = conn.prepareStatement("INSERT INTO User_projectsSubmitted VALUES(?, ?)");
+            stmt.setInt(1, project.getSubmitter().getId());
+            stmt.setInt(2, project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            for (User user : project.getVolunteers()) {
+                stmt = conn.prepareStatement("INSERT INTO User_projectsVolunteered VALUES(?, ?)");
+                stmt.setInt(1, user.getId());
+                stmt.setInt(2, project.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            stmt = conn.prepareStatement("INSERT INTO User_projectsOrganized VALUES(?, ?)");
+            stmt.setInt(1, project.getOrganizer().getId());
+            stmt.setInt(2, project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            for (String path : project.getImageUrls()) {
+                stmt = conn.prepareStatement("INSERT INTO Project_imageUrls VALUES(?, ?)");
+                stmt.setInt(1, project.getId());
+                stmt.setString(2, path);
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (Comment comment : project.getComments()) {
+                stmt = conn.prepareStatement("INSERT INTO Project_Comments VALUES(?, ?)");
+                stmt.setInt(1, project.getId());
+                stmt.setInt(2, comment.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            for (Donation donation : project.getDonations()) {
+                stmt = conn.prepareStatement("INSERT INTO Project_Donations VALUES(?, ?)");
+                stmt.setInt(1, project.getId());
+                stmt.setInt(2, donation.getId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
+
+            //stmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (conn != null)
+                conn.rollback();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    /**
+     * Delete additional tables.
+     *
+     * @param project the project
+     * @throws SQLException the SQL exception
+     */
+    private void delTables(Project project) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = MainJdbc.connection();
+
+            stmt = conn.prepareStatement("DELETE FROM User_projectsSubmitted  WHERE User_projectsSubmitted.projectId=" + project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+
+            stmt = conn.prepareStatement("DELETE FROM User_projectsOrganized  WHERE User_projectsOrganized.projectId=" + project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM User_projectsVolunteered  WHERE User_projectsVolunteered.projectId=" + project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Project_imageUrls  WHERE Project_imageUrls.projectId=" + project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Project_Comments  WHERE Project_Comments.projectId=" + project.getId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM Project_Donations  WHERE Project_Donations.projectId=" + project.getId());
+            stmt.executeUpdate();
+            //stmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (conn != null)
+                conn.rollback();
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+
 }
