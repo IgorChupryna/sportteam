@@ -10,6 +10,8 @@
 
     <modules>
         <module>jdbc</module>
+        <module>jpahibernate</module>
+        <module>servlet</module>
     </modules>
 
     
@@ -20,6 +22,20 @@
         <compiler.version>3.3</compiler.version>
         <jdbc.version>5.1.9</jdbc.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${jdbc.version}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
