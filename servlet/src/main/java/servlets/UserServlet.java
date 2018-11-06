@@ -2,7 +2,9 @@ package servlets;
 
 
 import crud.ToolService;
+import crud.UserService;
 import entity.Tool;
+import entity.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,25 +20,25 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-@WebServlet(urlPatterns = {"/createUser"})
-public class CreateUserServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/user"})
+public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Tool> tools = null;
+        List<User> users = null;
         String errorString = null;
 
         try {
-            tools = new ToolService().getAll();
+            users = new UserService().getAll();
         } catch (SQLException e) {
             errorString = e.getMessage();
         }
 
         request.setAttribute("errorString", errorString);
-        request.setAttribute("toolList", tools);
+        request.setAttribute("userList", users);
 
-        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/create_user.jsp");
+        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/users.jsp");
 
         dispatcher.forward(request, response);
     }

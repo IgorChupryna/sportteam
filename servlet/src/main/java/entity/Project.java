@@ -18,10 +18,10 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "address1", length = 255)
+    @Column(name = "address1")
     private String address1;
 
-    @Column(name = "address2", length = 255)
+    @Column(name = "address2")
     private String address2;
 
     @Column(name = "city", length = 64)
@@ -31,7 +31,7 @@ public class Project {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateAdded;
 
-    @Column(name = "description", length = 255)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "email", length = 32)
@@ -68,8 +68,8 @@ public class Project {
     private List<User> volunteers = new ArrayList<User>();
 
 
-    @Column(name="image urls")
-    @ElementCollection(targetClass=String.class)
+
+    @ElementCollection()
     private List<String> imageUrls = new ArrayList<String>();
 
     @OneToMany(

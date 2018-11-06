@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
     <title>Title</title>
 </head>
@@ -19,10 +20,10 @@
         <th>Edit</th>
         <th>Delete</th>
     </tr>
-    <c:forEach items="${toolList}" var="tool" >
+    <c:forEach items="${projectList}" var="project" >
         <tr>
-            <td>${tool.id}</td>
-            <td>${tool.name}</td>
+            <td>${project.id}</td>
+            <td>${project.name}</td>
             <td>
                 <a href="editProduct?code=${product.code}">Edit</a>
             </td>

@@ -5,10 +5,10 @@
  
    <a href="${pageContext.request.contextPath}/home">Home</a>
    |
-   <a href="${pageContext.request.contextPath}/productList">Product List</a>
+   <a href="${pageContext.request.contextPath}/user">Users List</a>
    |
-   <a href="${pageContext.request.contextPath}/userInfo">My Account Info</a>
+   <a href="${pageContext.request.contextPath}/project">Projects List</a>
    |
-   <a href="${pageContext.request.contextPath}/login">Login</a>
+   <a href="${pageContext.request.contextPath}/other">Other DB Lists</a>
     
 </div> 

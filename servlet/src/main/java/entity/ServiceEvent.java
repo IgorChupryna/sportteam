@@ -23,7 +23,7 @@ public class ServiceEvent {
 	@PrimaryKeyJoinColumn
 	private Community community;
 
-    @Column(name="description",length = 255)
+    @Column(name="description")
 	private String description;
 
 	@Column(name = "date")
