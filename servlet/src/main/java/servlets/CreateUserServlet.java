@@ -18,35 +18,27 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-@WebServlet(urlPatterns = { "/createUser" })
+@WebServlet(urlPatterns = {"/createUser"})
 public class CreateUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Tool> tools=null;
+        List<Tool> tools = null;
         String errorString = null;
-        Tool tool=null;
+
         try {
-            tool = new ToolService().get(1L);
+            tools = new ToolService().getAll();
         } catch (SQLException e) {
-            e.printStackTrace();
+            errorString = e.getMessage();
         }
-        request.setAttribute("tool", tool);
-        /**
-        try {
-           tools = new ToolService().getAll();
-        } catch (SQLException e) {
-            errorString=e.getMessage();
-        }**/
 
         request.setAttribute("errorString", errorString);
-       // request.setAttribute("toolList", tools);
+        request.setAttribute("toolList", tools);
 
-        //RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/create_user.jsp");
-        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/first.jsp");
+        RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/create_user.jsp");
+
         dispatcher.forward(request, response);
-
     }
 
     @Override

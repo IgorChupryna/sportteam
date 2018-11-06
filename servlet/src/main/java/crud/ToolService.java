@@ -1,16 +1,13 @@
 package crud;
 
-import connection.ConnectionUtils;
 import entity.Tool;
 import interfaces.MainService;
 import javax.persistence.*;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ToolService  implements MainService<Tool> {
     public EntityManager em = Persistence.createEntityManagerFactory("SPORTTEAM").createEntityManager();
-
 
     @Override
     public Tool add(Tool tool) throws SQLException {
