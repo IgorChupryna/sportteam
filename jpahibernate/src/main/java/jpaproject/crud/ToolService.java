@@ -2,7 +2,6 @@ package jpaproject.crud;
 
 import jpaproject.entity.Tool;
 import jpaproject.interfaces.MainService;
-
 import javax.persistence.*;
 import java.sql.SQLException;
 import java.util.List;
