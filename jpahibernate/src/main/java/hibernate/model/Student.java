@@ -1,13 +1,27 @@
 package hibernate.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
-public class Student implements Serializable{
-    private int id;
+@Entity
+@Table(name="STUDENT")
+public class Student {
+    @Id
+    @Column(name = "ADDRESS_ID")
+    private long id;
+    @Column(name = "FIRST_NAME")
     private String firstName;
+    @Column(name = "LAST_NAME")
     private String lastName;
+    @Column(name = "SECTION")
     private String section;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Address address;
+    @ManyToOne(optional = false)
+
+    //@JoinColumn(name)
+    //private University university;
 
 
     @Override
@@ -20,9 +34,7 @@ public class Student implements Serializable{
                 '}';
     }
 
-    public int getId() {
-        return id;
-    }
+
 
     public void setId(int id) {
         this.id = id;
