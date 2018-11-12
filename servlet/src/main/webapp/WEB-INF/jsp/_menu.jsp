@@ -10,5 +10,6 @@
    <a href="${pageContext.request.contextPath}/project">Projects List</a>
    |
    <a href="${pageContext.request.contextPath}/other">Other DB Lists</a>
-    
+
+
 </div> 
