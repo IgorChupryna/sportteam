@@ -24,10 +24,11 @@ public class ToolService  implements MainService<Tool> {
     }
 
     @Override
-    public void set(Tool tool) throws SQLException {
+    public Tool set(Tool tool) throws SQLException {
         em.getTransaction().begin();
         em.merge(tool);
         em.getTransaction().commit();
+        return null;
     }
 
     @Override

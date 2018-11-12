@@ -23,10 +23,11 @@ public class DonationService implements MainService<Donation> {
     }
 
     @Override
-    public void set(Donation donation) throws SQLException {
+    public Donation set(Donation donation) throws SQLException {
         em.getTransaction().begin();
         em.merge(donation);
         em.getTransaction().commit();
+        return null;
     }
 
     @Override

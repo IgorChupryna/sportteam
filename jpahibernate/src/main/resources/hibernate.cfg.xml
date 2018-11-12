@@ -13,7 +13,13 @@
         <property name="format_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="hibernate.model.Teacher"/>
+        <mapping class="hibernate.model.TeacherUniversity"/>
+        <mapping class="hibernate.model.TeacherAddress"/>
         <mapping class="hibernate.model.Address"/>
+        <mapping class="hibernate.model.Director"/>
+        <mapping class="hibernate.model.DirectorAddress"/>
+        <mapping class="hibernate.model.University"/>
         <mapping class="hibernate.model.Student"/>
+        <mapping class="hibernate.model.Subject"/>
     </session-factory>
 </hibernate-configuration>

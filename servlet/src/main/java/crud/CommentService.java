@@ -26,8 +26,8 @@ public class CommentService implements MainService<Comment> {
     }
 
     @Override
-    public void set(Comment comment) throws SQLException {
-
+    public Comment set(Comment comment) throws SQLException {
+        return null;
     }
 
     @Override

@@ -24,10 +24,11 @@ public class ProjectService implements MainService<Project> {
     }
 
     @Override
-    public void set(Project project) throws SQLException {
+    public Project set(Project project) throws SQLException {
         em.getTransaction().begin();
         em.merge(project);
         em.getTransaction().commit();
+        return null;
     }
 
     @Override

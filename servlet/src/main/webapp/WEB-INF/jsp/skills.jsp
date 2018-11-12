@@ -25,10 +25,18 @@
             <td>${skill.id}</td>
             <td>${skill.name}</td>
             <td>
-                <a href="editProduct?code=${product.code}">Edit</a>
+                <form action="skill?id=${skill.id}" method="put" if-match="*">
+                    <input name="user-name" id="name" type="text" value="" />
+                    <input type="submit" name="edit" />
+                </form>
+
+                    <%--<a href="editProduct?id=${skill.id}">Edit</a>--%>
             </td>
             <td>
-                <a href="deleteProduct?code=${product.code}">Delete</a>
+                <form action=”http://www.example.org/users/123” method=”delete” if-match=”q1w2e3r4t5”>
+                    <input type=”submit” />
+                </form>
+                    <%--<a href="deleteProduct?code=${product.code}">Delete</a>--%>
             </td>
         </tr>
     </c:forEach>

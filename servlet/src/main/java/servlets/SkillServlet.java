@@ -42,5 +42,24 @@ public class SkillServlet extends HttpServlet {
             throws ServletException, IOException {
         doGet(request, response);
     }
+
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Long id = Long.parseLong(req.getParameter("id"));
+
+        try {
+            Skill skill = new SkillService().set(new SkillService().get(id));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        super.doPut(req, resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doDelete(req, resp);
+    }
 }
 

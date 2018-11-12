@@ -23,10 +23,11 @@ public class UserService implements MainService<User> {
     }
 
     @Override
-    public void set(User user) throws SQLException {
+    public User set(User user) throws SQLException {
         em.getTransaction().begin();
         em.merge(user);
         em.getTransaction().commit();
+        return null;
     }
 
     @Override

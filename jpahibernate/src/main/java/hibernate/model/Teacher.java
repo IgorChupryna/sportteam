@@ -9,7 +9,9 @@ import java.util.List;
 @Table(name="TEACHER")
 @SuppressWarnings("all")
 public class Teacher {
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue
+    @Column(name="TEACHER_ID")
     private int id;
 
     @Column(name = "FIRST_NAME",nullable = false)
@@ -56,6 +58,14 @@ public class Teacher {
                 ", lastName='" + lastName + '\'' +
                 ", section='" + section + '\'' +
                 '}';
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 
     public int getId() {
