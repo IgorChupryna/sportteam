@@ -8,6 +8,7 @@ import java.util.List;
 public class TeacherUniversity {
 
     @Id
+    @GeneratedValue
     @Column(name="UNIVERSITY_ID")
     private  long id;
 

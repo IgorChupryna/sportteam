@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class TeacherAddress {
 
     @Id
+    @GeneratedValue
     @Column(name="ADDRESS_ID")
     private  long id;
 

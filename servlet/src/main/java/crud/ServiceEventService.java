@@ -23,10 +23,11 @@ public class ServiceEventService implements MainService<ServiceEvent> {
     }
 
     @Override
-    public void set(ServiceEvent serviceEvent) throws SQLException {
+    public ServiceEvent set(ServiceEvent serviceEvent) throws SQLException {
         em.getTransaction().begin();
         em.merge(serviceEvent);
         em.getTransaction().commit();
+        return null;
     }
 
     @Override

@@ -23,10 +23,11 @@ public class SkillService implements MainService<Skill> {
     }
 
     @Override
-    public void set(Skill skill) throws SQLException {
+    public Skill set(Skill skill) throws SQLException {
         em.getTransaction().begin();
         em.merge(skill);
         em.getTransaction().commit();
+        return null;
     }
 
     @Override

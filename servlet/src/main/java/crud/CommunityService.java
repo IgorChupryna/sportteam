@@ -23,10 +23,11 @@ public class CommunityService  implements MainService<Community> {
     }
 
     @Override
-    public void set(Community community) throws SQLException {
+    public Community set(Community community) throws SQLException {
         em.getTransaction().begin();
         em.merge(community);
         em.getTransaction().commit();
+        return null;
     }
 
     @Override

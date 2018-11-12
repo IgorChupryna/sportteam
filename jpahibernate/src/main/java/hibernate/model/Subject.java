@@ -1,9 +1,6 @@
 package hibernate.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +9,19 @@ import java.util.List;
 @Table(name="SUBJECT")
 public class Subject {
     @Id
+    @GeneratedValue
     @Column(name="SUBJECT_ID")
     private  long id;
 
     @Column(name = "NAME")
     private String name;
 
+    @ManyToMany(mappedBy = "subjects")
     private List<Teacher> teachers = new ArrayList<>();
+
+    public Subject(String name) {
+        this.name = name;
+    }
 
     public Subject() {
     }
