@@ -10,7 +10,7 @@
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://10.91.63.108:3306/jpadb"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://10.91.63.108:3306/hiberdb"/>
             <property name="hibernate.connection.username" value="monty"/>
             <property name="hibernate.connection.password" value="totoadmin"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>

@@ -12,6 +12,7 @@
         <module>jdbc</module>
         <module>jpahibernate</module>
         <module>servlet</module>
+        <module>hibernate</module>
     </modules>
 
     
