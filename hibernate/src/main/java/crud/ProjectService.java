@@ -1,58 +1,69 @@
 package crud;
 
 
+import conn.HibernateUtil;
 import entity.Project;
 import interfaces.MainService;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import javax.persistence.*;
 import java.sql.SQLException;
 import java.util.List;
-
+@SuppressWarnings("all")
 public class ProjectService implements MainService<Project> {
-    public EntityManager em = Persistence.createEntityManagerFactory("SPORTTEAM").createEntityManager();
+    private Session session = HibernateUtil.getSessionFactory().openSession();
+
     @Override
-    public Project add(Project project) throws SQLException {
-        Project c = null;
-        em.getTransaction().begin();
+    public Integer add(Project project) throws SQLException {
+        session.beginTransaction();
+        Integer id=null;
         try {
-            c = em.merge(project);
-            em.getTransaction().commit();
-        } catch (TransactionRequiredException | RollbackException ex) {
-            em.getTransaction().rollback();
+            id = (Integer) session.save(project);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
         }
-        return c;
+        return id;
     }
 
     @Override
-    public Project set(Project project) throws SQLException {
-        em.getTransaction().begin();
-        em.merge(project);
-        em.getTransaction().commit();
-        return null;
+    public void set(Project project) throws SQLException {
+        session.beginTransaction();
+        try {
+            session.saveOrUpdate(project);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
+        }
     }
 
     @Override
     public Project get(Long id) throws SQLException {
-        return em.find(Project.class, id);
+        return (Project)session.get(Project.class, id);
     }
 
     @Override
     public void del(Project project) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(project);
-        em.getTransaction().commit();
+        session.beginTransaction();
+        session.delete(project);
+        session.getTransaction().commit();
     }
 
     @Override
     public void del(Long id) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(get(id));
-        em.getTransaction().commit();
+        Query query = session.createQuery("delete Project where id = :ID");
+        query.setParameter("ID", id);
     }
 
     @Override
     public List<Project> getAll() throws SQLException {
-        TypedQuery<Project> namedQuery = em.createNamedQuery("Project.getAll", Project.class);
-        return namedQuery.getResultList();
+        session.beginTransaction();
+        @SuppressWarnings("unchecked")
+        List<Project> projects = (List<Project>) session.createQuery("FROM Project s").list();
+        session.getTransaction().commit();
+        return projects;
     }
 }

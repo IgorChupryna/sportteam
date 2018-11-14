@@ -1,36 +1,34 @@
 package entity;
 
-import entity.Project;
-import entity.User;
-
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name="comment")
-@NamedQuery(name="Comment.getAll", query="select s from Comment s")
+@Table(name="COMMENT")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "COMMENT_ID")
     private Long id;
 
-    @Column(name = "date")
+    @Column(name = "DATE")
     @Temporal(TemporalType.TIMESTAMP)
 	private Calendar dateAdded;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "submitter")
-	private entity.User submitter;
+	private User submitter;
 
-    @Column(name="text",length = 32)
+    @Column(name="TEXT",length = 32)
 	private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project")
-	private entity.Project project;
+	private Project project;
 
 
-    public Comment(Calendar dateAdded, entity.User submitter, String text, entity.Project project) {
+    public Comment(Calendar dateAdded, User submitter, String text, Project project) {
         this.dateAdded = dateAdded;
         this.submitter = submitter;
         this.text = text;
@@ -55,11 +53,11 @@ public class Comment {
         this.dateAdded = dateAdded;
     }
 
-    public entity.User getSubmitter() {
+    public User getSubmitter() {
         return submitter;
     }
 
-    public void setSubmitter(entity.User submitter) {
+    public void setSubmitter(User submitter) {
         this.submitter = submitter;
     }
 
@@ -71,11 +69,11 @@ public class Comment {
         this.text = text;
     }
 
-    public entity.Project getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject(entity.Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 }

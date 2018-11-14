@@ -6,16 +6,17 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name="tool")
-@NamedQuery(name="Tool.getAll", query="select t from Tool t")
+@Table(name="TOOL")
+
 public class Tool implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "TOOL_ID")
     private Long id;
 
-    @Column(name="name",length = 32)
+    @Column(name="NAME",length = 32)
     private String name;
 
     public Tool() {

@@ -1,58 +1,54 @@
 package entity;
 
-import entity.Comment;
-import entity.Donation;
-import entity.User;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 @Entity
-@Table(name = "project")
-@NamedQuery(name = "Project.getAll", query = "select s from Project s")
+@Table(name = "PROJECT")
 public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "PROJECT_ID")
     private Long id;
 
-    @Column(name = "address1")
+    @Column(name = "ADDRESS1")
     private String address1;
 
-    @Column(name = "address2")
+    @Column(name = "ADDRESS1")
     private String address2;
 
-    @Column(name = "city", length = 64)
+    @Column(name = "CITY", length = 64)
     private String city;
 
-    @Column(name = "date")
+    @Column(name = "DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar dateAdded;
 
-    @Column(name = "description")
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "email", length = 32)
+    @Column(name = "EMAIL", length = 32)
     private String email;
 
-    @Column(name = "firstName", length = 32)
+    @Column(name = "FIRSTNAME", length = 32)
     private String firstName;
 
-    @Column(name = "lastName", length = 32)
+    @Column(name = "LASTNAME", length = 32)
     private String lastName;
 
-    @Column(name = "phone", length = 32)
+    @Column(name = "PHONE", length = 32)
     private String phone;
 
-    @Column(name = "state", length = 32)
+    @Column(name = "STATE", length = 32)
     private String state;
 
-    @Column(name = "zip", length = 32)
+    @Column(name = "ZIP", length = 32)
     private String zip;
 
-    @Column(name = "title", length = 64)
+    @Column(name = "TITLE", length = 64)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)

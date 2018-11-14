@@ -2,15 +2,15 @@ package entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="skill")
-@NamedQuery(name="Skill.getAll", query="select s from Skill s")
+@Table(name="SKILL")
 public class Skill {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="SKILL_ID")
 	private Long id;
 
-	@Column(name="name",length = 32)
+	@Column(name="NAME",length = 32)
 	private String name;
 
 	public Skill() {

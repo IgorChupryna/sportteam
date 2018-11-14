@@ -1,57 +1,68 @@
 package crud;
 
+import conn.HibernateUtil;
 import entity.ServiceEvent;
 import interfaces.MainService;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import javax.persistence.*;
 import java.sql.SQLException;
 import java.util.List;
-
+@SuppressWarnings("all")
 public class ServiceEventService implements MainService<ServiceEvent> {
-    public EntityManager em = Persistence.createEntityManagerFactory("SPORTTEAM").createEntityManager();
+    private Session session = HibernateUtil.getSessionFactory().openSession();
+
     @Override
-    public ServiceEvent add(ServiceEvent serviceEvent) throws SQLException {
-        ServiceEvent c = null;
-        em.getTransaction().begin();
+    public Integer add(ServiceEvent serviceEvent) throws SQLException {
+        session.beginTransaction();
+        Integer id=null;
         try {
-            c = em.merge(serviceEvent);
-            em.getTransaction().commit();
-        } catch (TransactionRequiredException | RollbackException ex) {
-            em.getTransaction().rollback();
+            id = (Integer) session.save(serviceEvent);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
         }
-        return c;
+        return id;
     }
 
     @Override
-    public ServiceEvent set(ServiceEvent serviceEvent) throws SQLException {
-        em.getTransaction().begin();
-        em.merge(serviceEvent);
-        em.getTransaction().commit();
-        return null;
+    public void set(ServiceEvent serviceEvent) throws SQLException {
+        session.beginTransaction();
+        try {
+            session.saveOrUpdate(serviceEvent);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
+        }
     }
 
     @Override
     public ServiceEvent get(Long id) throws SQLException {
-        return em.find(ServiceEvent.class, id);
+        return (ServiceEvent)session.get(ServiceEvent.class, id);
     }
 
     @Override
     public void del(ServiceEvent serviceEvent) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(serviceEvent);
-        em.getTransaction().commit();
+        session.beginTransaction();
+        session.delete(serviceEvent);
+        session.getTransaction().commit();
     }
 
     @Override
     public void del(Long id) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(get(id));
-        em.getTransaction().commit();
+        Query query = session.createQuery("delete ServiceEvent where id = :ID");
+        query.setParameter("ID", id);
     }
 
     @Override
     public List<ServiceEvent> getAll() throws SQLException {
-        TypedQuery<ServiceEvent> namedQuery = em.createNamedQuery("ServiceEvent.getAll", ServiceEvent.class);
-        return namedQuery.getResultList();
+        session.beginTransaction();
+        @SuppressWarnings("unchecked")
+        List<ServiceEvent> serviceEvents = (List<ServiceEvent>) session.createQuery("FROM ServiceEvent s Order BY s.name ASC").list();
+        session.getTransaction().commit();
+        return serviceEvents;
     }
 }

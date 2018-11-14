@@ -1,57 +1,68 @@
 package crud;
 
+import conn.HibernateUtil;
 import entity.User;
 import interfaces.MainService;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import javax.persistence.*;
 import java.sql.SQLException;
 import java.util.List;
-
+@SuppressWarnings("all")
 public class UserService implements MainService<User> {
-    public EntityManager em = Persistence.createEntityManagerFactory("SPORTTEAM").createEntityManager();
+    private Session session = HibernateUtil.getSessionFactory().openSession();
+
     @Override
-    public User add(User user) throws SQLException {
-        User c = null;
-        em.getTransaction().begin();
+    public Integer add(User user) throws SQLException {
+        session.beginTransaction();
+        Integer id=null;
         try {
-            c = em.merge(user);
-            em.getTransaction().commit();
-        } catch (TransactionRequiredException | RollbackException ex) {
-            em.getTransaction().rollback();
+            id = (Integer) session.save(user);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
         }
-        return c;
+        return id;
     }
 
     @Override
-    public User set(User user) throws SQLException {
-        em.getTransaction().begin();
-        em.merge(user);
-        em.getTransaction().commit();
-        return null;
+    public void set(User user) throws SQLException {
+        session.beginTransaction();
+        try {
+            session.saveOrUpdate(user);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
+        }
     }
 
     @Override
     public User get(Long id) throws SQLException {
-        return em.find(User.class, id);
+        return (User)session.get(User.class, id);
     }
 
     @Override
     public void del(User user) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(user);
-        em.getTransaction().commit();
+        session.beginTransaction();
+        session.delete(user);
+        session.getTransaction().commit();
     }
 
     @Override
     public void del(Long id) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(get(id));
-        em.getTransaction().commit();
+        Query query = session.createQuery("delete User where id = :ID");
+        query.setParameter("ID", id);
     }
 
     @Override
     public List<User> getAll() throws SQLException {
-        TypedQuery<User> namedQuery = em.createNamedQuery("User.getAll", User.class);
-        return namedQuery.getResultList();
+        session.beginTransaction();
+        @SuppressWarnings("unchecked")
+        List<User> users = (List<User>) session.createQuery("FROM User s Order BY s.name ASC").list();
+        session.getTransaction().commit();
+        return users;
     }
 }

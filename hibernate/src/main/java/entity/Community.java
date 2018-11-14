@@ -1,19 +1,17 @@
 package entity;
 
-import entity.User;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name="community")
-@NamedQuery(name="Community.getAll", query="select c from Community c")
+@Table(name="COMMUNITY")
 public class Community {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="COMMUNITY_ID")
     private Long id;
 
-    @Column(name="name",length = 32)
+    @Column(name="NAME",length = 32)
 	private String name;
 
 	@ManyToOne(fetch = FetchType.LAZY)

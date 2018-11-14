@@ -1,24 +1,21 @@
 package entity;
 
-import entity.Project;
-import entity.User;
-
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "donation")
-@NamedQuery(name = "Donation.getAll", query = "select d from Donation d")
+@Table(name = "DONATION")
 public class Donation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "DONATION_ID")
     private Long id;
 
-    @Column(name = "amount")
+    @Column(name = "AMOUNT")
     private double amount;
 
-    @Column(name = "date")
+    @Column(name = "DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAdded;
 

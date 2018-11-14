@@ -5,21 +5,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
-@NamedQuery(name = "User.getAll", query = "select s from User s")
+@Table(name = "USER")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "USER_ID")
     private Long id;
 
-    @Column(name = "email")
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "name", length = 64)
+    @Column(name = "NAME", length = 64)
     private String name;
 
-    @Column(name = "address1", length = 32)
+    @Column(name = "PHONE", length = 32)
     private String phone;
 
     @OneToMany(cascade = CascadeType.ALL)

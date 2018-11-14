@@ -1,57 +1,68 @@
 package crud;
 
+import conn.HibernateUtil;
 import entity.Skill;
 import interfaces.MainService;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import javax.persistence.*;
 import java.sql.SQLException;
 import java.util.List;
-
+@SuppressWarnings("all")
 public class SkillService implements MainService<Skill> {
-    public EntityManager em = Persistence.createEntityManagerFactory("SPORTTEAM").createEntityManager();
+    private Session session = HibernateUtil.getSessionFactory().openSession();
+
     @Override
-    public Skill add(Skill skill) throws SQLException {
-        Skill c = null;
-        em.getTransaction().begin();
+    public Integer add(Skill skill) throws SQLException {
+        session.beginTransaction();
+        Integer id=null;
         try {
-            c = em.merge(skill);
-            em.getTransaction().commit();
-        } catch (TransactionRequiredException | RollbackException ex) {
-            em.getTransaction().rollback();
+            id = (Integer) session.save(skill);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
         }
-        return c;
+        return id;
     }
 
     @Override
-    public Skill set(Skill skill) throws SQLException {
-        em.getTransaction().begin();
-        em.merge(skill);
-        em.getTransaction().commit();
-        return null;
+    public void set(Skill skill) throws SQLException {
+        session.beginTransaction();
+        try {
+            session.saveOrUpdate(skill);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
+        }
     }
 
     @Override
     public Skill get(Long id) throws SQLException {
-        return em.find(Skill.class, id);
+        return (Skill)session.get(Skill.class, id);
     }
 
     @Override
     public void del(Skill skill) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(skill);
-        em.getTransaction().commit();
+        session.beginTransaction();
+        session.delete(skill);
+        session.getTransaction().commit();
     }
 
     @Override
     public void del(Long id) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(get(id));
-        em.getTransaction().commit();
+        Query query = session.createQuery("delete Skill where id = :ID");
+        query.setParameter("ID", id);
     }
 
     @Override
     public List<Skill> getAll() throws SQLException {
-        TypedQuery<Skill> namedQuery = em.createNamedQuery("Skill.getAll", Skill.class);
-        return namedQuery.getResultList();
+        session.beginTransaction();
+        @SuppressWarnings("unchecked")
+        List<Skill> skills = (List<Skill>) session.createQuery("FROM Skill s").list();
+        session.getTransaction().commit();
+        return skills;
     }
 }

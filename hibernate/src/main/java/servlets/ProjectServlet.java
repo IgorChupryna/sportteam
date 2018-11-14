@@ -2,9 +2,7 @@ package servlets;
 
 
 import crud.ProjectService;
-import crud.UserService;
 import entity.Project;
-import entity.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

@@ -1,7 +1,10 @@
 package crud;
 
+import conn.HibernateUtil;
 import entity.Comment;
 import interfaces.MainService;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -9,44 +12,61 @@ import javax.persistence.RollbackException;
 import javax.persistence.TransactionRequiredException;
 import java.sql.SQLException;
 import java.util.List;
-
+@SuppressWarnings("all")
 public class CommentService implements MainService<Comment> {
-    public EntityManager em = Persistence.createEntityManagerFactory("SPORTTEAM").createEntityManager();
+
+    private Session session = HibernateUtil.getSessionFactory().openSession();
+
     @Override
-    public Comment add(Comment comment) throws SQLException {
-        Comment c = null;
-        em.getTransaction().begin();
+    public Integer add(Comment comment) throws SQLException {
+        session.beginTransaction();
+        Integer id=null;
         try {
-            c = em.merge(comment);
-            em.getTransaction().commit();
-        } catch (TransactionRequiredException | RollbackException ex) {
-            em.getTransaction().rollback();
+            id = (Integer) session.save(comment);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
         }
-        return c;
+        return id;
     }
 
     @Override
-    public Comment set(Comment comment) throws SQLException {
-        return null;
+    public void set(Comment comment) throws SQLException {
+        session.beginTransaction();
+        try {
+            session.saveOrUpdate(comment);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
+        }
     }
 
     @Override
     public Comment get(Long id) throws SQLException {
-        return null;
+        return (Comment)session.get(Comment.class, id);
     }
 
     @Override
     public void del(Comment comment) throws SQLException {
-
+        session.beginTransaction();
+        session.delete(comment);
+        session.getTransaction().commit();
     }
 
     @Override
     public void del(Long id) throws SQLException {
-
+        Query query = session.createQuery("delete Comment where id = :ID");
+        query.setParameter("ID", id);
     }
 
     @Override
     public List<Comment> getAll() throws SQLException {
-        return null;
+        session.beginTransaction();
+        @SuppressWarnings("unchecked")
+        List<Comment> comments = (List<Comment>) session.createQuery("FROM Comment s").list();
+        session.getTransaction().commit();
+        return comments;
     }
 }

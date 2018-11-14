@@ -1,18 +1,15 @@
 package entity;
 
-import entity.Community;
-import entity.User;
-
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@Table(name = "service_event")
-@NamedQuery(name = "ServiceEvent.getAll", query = "select s from ServiceEvent s")
+@Table(name = "SERVICE_EVENT")
 public class ServiceEvent {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "SERVICE_EVENT_ID")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -23,14 +20,14 @@ public class ServiceEvent {
 	@PrimaryKeyJoinColumn
 	private Community community;
 
-    @Column(name="description")
+    @Column(name="DESCRIPTION")
 	private String description;
 
-	@Column(name = "date")
+	@Column(name = "DATE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
 
-	@Column(name="name",length = 32)
+	@Column(name="NAME",length = 32)
 	private String name;
 
 

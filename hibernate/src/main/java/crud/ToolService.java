@@ -1,58 +1,73 @@
 package crud;
 
+import conn.HibernateUtil;
 import entity.Tool;
 import interfaces.MainService;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.sql.SQLException;
 import java.util.List;
 
-
+@SuppressWarnings("all")
 public class ToolService  implements MainService<Tool> {
-    public EntityManager em = Persistence.createEntityManagerFactory("SPORTTEAM").createEntityManager();
+    private Session session = HibernateUtil.getSessionFactory().openSession();
 
     @Override
-    public Tool add(Tool tool) throws SQLException {
-        Tool c = null;
-        em.getTransaction().begin();
+    public Integer add(Tool tool) throws SQLException {
+        session.beginTransaction();
+        Integer id=null;
         try {
-            c = em.merge(tool);
-            em.getTransaction().commit();
-        } catch (TransactionRequiredException | RollbackException ex) {
-            em.getTransaction().rollback();
+            id = (Integer) session.save(tool);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
         }
-        return c;
+        return id;
     }
 
     @Override
-    public Tool set(Tool tool) throws SQLException {
-        em.getTransaction().begin();
-        em.merge(tool);
-        em.getTransaction().commit();
-        return null;
+    public void set(Tool tool) throws SQLException {
+        session.beginTransaction();
+        try {
+            session.saveOrUpdate(tool);
+            session.getTransaction().commit();
+
+        } catch (Throwable ex) {
+            session.getTransaction().rollback();
+        }
     }
 
     @Override
     public Tool get(Long id) throws SQLException {
-        return em.find(Tool.class, id);
+        return (Tool)session.get(Tool.class, id);
     }
 
     @Override
     public void del(Tool tool) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(tool);
-        em.getTransaction().commit();
+        session.beginTransaction();
+        session.delete(tool);
+        session.getTransaction().commit();
     }
 
     @Override
     public void del(Long id) throws SQLException {
-        em.getTransaction().begin();
-        em.remove(get(id));
-        em.getTransaction().commit();
+        Query query = session.createQuery("delete Tool where id = :ID");
+        query.setParameter("ID", id);
     }
 
     @Override
     public List<Tool> getAll() throws SQLException {
-        TypedQuery<Tool> namedQuery = em.createNamedQuery("Tool.getAll", Tool.class);
-        return namedQuery.getResultList();
+        session.beginTransaction();
+        @SuppressWarnings("unchecked")
+        List<Tool> tools = (List<Tool>) session.createQuery("FROM Tool s Order BY s.name ASC").list();
+        session.getTransaction().commit();
+        return tools;
     }
+
+
+
+
 }

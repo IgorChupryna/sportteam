@@ -64,7 +64,7 @@ public class SkillServlet extends HttpServlet {
         Long id = Long.parseLong(req.getParameter("id"));
 
         try {
-            Skill skill = new SkillService().set(new SkillService().get(id));
+            skillService.set(new SkillService().get(id));
         } catch (SQLException e) {
             e.printStackTrace();
         }
