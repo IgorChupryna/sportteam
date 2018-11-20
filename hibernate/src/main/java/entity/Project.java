@@ -17,7 +17,7 @@ public class Project {
     @Column(name = "ADDRESS1")
     private String address1;
 
-    @Column(name = "ADDRESS1")
+    @Column(name = "ADDRESS2")
     private String address2;
 
     @Column(name = "CITY", length = 64)

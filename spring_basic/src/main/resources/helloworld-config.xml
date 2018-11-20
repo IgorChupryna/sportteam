@@ -35,21 +35,21 @@
         <property name="city" value="Nebraska"/>
     </bean>
 
-    <!--&lt;!&ndash; constructor example &ndash;&gt;-->
-    <!--<bean id="performer" class="spring.basic.domain.autowiring.constructor.domain.Performer" autowire="constructor"/>-->
+    <!-- constructor example -->
+    <bean id="performer" class="spring.basic.domain.autowiring.constructor.domain.Performer" autowire="constructor"/>
 
-    <!--<bean id="instrument" class="spring.basic.domain.autowiring.constructor.domain.Instrument" >-->
-        <!--<property name="name" value="PIANO"/>-->
-    <!--</bean>-->
+    <bean id="instrument" class="spring.basic.domain.autowiring.constructor.domain.Instrument" >
+        <property name="name" value="PIANO"/>
+    </bean>
 
-    <!--&lt;!&ndash; default example (autowire="no") &ndash;&gt;-->
-    <!--<bean id="driver" class="spring.basic..domain.autowiring.autowiredNo.domain.Driver" autowire="no">-->
-        <!--&lt;!&ndash; without ref Drivers license property will be null&ndash;&gt;-->
-        <!--<property name="license" ref="license"/>-->
-    <!--</bean>-->
+    <!-- default example (autowire="no") -->
+    <bean id="driver" class="spring.basic.domain.autowiring.autowiredNo.domain.Driver" autowire="no">
+        <!-- without ref Drivers license property will be null-->
+        <property name="license" ref="license"/>
+    </bean>
 
-    <!--<bean id="license" class="spring.basic.domain.autowiring.autowiredNo.domain.License" >-->
-        <!--<property name="number" value="123456ABCD"/>-->
-    <!--</bean>-->
+    <bean id="license" class="spring.basic.domain.autowiring.autowiredNo.domain.License" >
+        <property name="number" value="123456ABCD"/>
+    </bean>
 
 </beans>
