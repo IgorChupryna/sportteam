@@ -6,9 +6,9 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.username">monty</property>
         <property name="hibernate.connection.password">totoadmin</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3308/hiberdb</property>
+        <property name="hibernate.connection.url">jdbc:mysql://10.91.63.108:3308/hiberdb</property>
         <property name="show_sql">true</property>
         <property name="format_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
