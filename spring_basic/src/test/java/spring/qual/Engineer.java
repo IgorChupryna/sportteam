@@ -3,7 +3,7 @@ package spring.qual;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class Engineer implements Employee {
     @Override
     public String payRate() {

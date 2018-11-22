@@ -14,6 +14,7 @@
         <module>servlet</module>
         <module>hibernate</module>
         <module>spring_basic</module>
+        <module>spring_jdbc</module>
     </modules>
 
     
@@ -23,7 +24,7 @@
     <properties>
         <compiler.version>3.3</compiler.version>
         <jdbc.version>5.1.9</jdbc.version>
-        <springframework.version>4.0.6.RELEASE</springframework.version>
+        <springframework.version>4.3.2.RELEASE</springframework.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,23 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${jdbc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework.version}</version>
+
+        </dependency>
+
     </dependencies>
 
     <build>
