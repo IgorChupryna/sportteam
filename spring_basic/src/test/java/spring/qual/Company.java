@@ -2,10 +2,9 @@ package spring.qual;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class Company {
 
     @Autowired
@@ -15,6 +14,7 @@ public class Company {
     @Autowired
     @Qualifier("analytic")
     private Employee analytic;
+
     @Autowired
     @Qualifier("builder")
     private Employee builder;

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
@@ -21,22 +22,21 @@
         <th>Delete</th>
     </tr>
     <c:forEach items="${skillList}" var="skill" >
+
         <tr>
             <td>${skill.id}</td>
-
             <td>
-                <form action="skill?id=${skill.id}" method="POST" if-match="*">
-                    <input name="user-name" id="name" type="text" value=${skill.name} />
+                <form action="skill" method="POST">
+                    <input name="id" id="id" type="hidden" value=${skill.id} />
+                    <input name="name" id="name" type="text" value=${skill.name} />
                     <input type="submit" value="Edit" name="edit" />
                 </form>
-
-                    <%--<a href="editProduct?id=${skill.id}">Edit</a>--%>
             </td>
             <td>
-                <form action=”http://www.example.org/users/123” method=”delete” if-match=”q1w2e3r4t5”>
-                    <input type=”submit” />
+                <form action="skill" method="POST">
+                    <input name="id" type="hidden" value=${skill.id} />
+                    <input type="submit" value="Delete" />
                 </form>
-                    <%--<a href="deleteProduct?code=${product.code}">Delete</a>--%>
             </td>
         </tr>
     </c:forEach>
