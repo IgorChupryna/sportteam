@@ -22,6 +22,7 @@ public class JdbcVehicalDaoImpl implements VehicleDao {
 
     private final JdbcTemplate jdbcTemplate;
 
+
     public JdbcVehicalDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

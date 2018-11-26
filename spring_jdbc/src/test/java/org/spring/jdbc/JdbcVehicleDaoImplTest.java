@@ -18,6 +18,7 @@ public class JdbcVehicleDaoImplTest {
     @Autowired
     private JdbcVehicalDaoImpl jdbcVehicalDao;
 
+
     @Test
     public void testInsert(){
         Vehicle vehicle = new Vehicle();
