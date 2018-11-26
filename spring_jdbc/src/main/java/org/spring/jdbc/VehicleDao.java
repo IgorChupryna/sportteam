@@ -15,4 +15,12 @@ public interface VehicleDao {
     Vehicle findByVehicleNo(String vehicleNo);
 
     List<Vehicle> findAll();
+
+    default  String getColor(String vehicleNo){
+        throw new IllegalStateException("Method is not implemented!");
+    }
+
+    default  int countAll(){
+        throw new IllegalStateException("Method is not implemented!");
+    }
 }

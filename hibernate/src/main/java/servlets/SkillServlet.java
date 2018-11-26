@@ -17,7 +17,7 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/skill"})
 public class SkillServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    public SkillService skillService= new SkillService();
+    public SkillService skillService = new SkillService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,38 +42,31 @@ public class SkillServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
-        Long id = Long.parseLong(request.getParameter("id"));
         String name = request.getParameter("name");
+        String idParam = request.getParameter("id");
         Skill skill = new Skill();
-        skill.setId(id);
+
+
+        if (idParam != null && !idParam.isEmpty()) {
+            skill.setId(Long.parseLong(idParam));
+            System.out.println("id: " + idParam);
+        }
+
         skill.setName(name);
-        try {
-            skillService.set(skill);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        doGet(request, response);
-    }
-
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Long id = Long.parseLong(req.getParameter("id"));
 
         try {
-            skillService.set(new SkillService().get(id));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        super.doPut(req, resp);
-    }
+            if (skill.getName() == null || skill.getName() == "") {
+                skillService.del(skill);
+            } else {
+                skillService.set(skill);}
+            } catch(SQLException e){
+                e.printStackTrace();
+            }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+            doGet(request, response);
+        }
+
+
+
     }
-}
 

@@ -4,6 +4,7 @@ package org.spring.jdbc;
 import com.mysql.jdbc.Driver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import javax.sql.DataSource;
@@ -11,6 +12,15 @@ import javax.sql.DataSource;
 @Configuration
 public class VehicleConfiguration {
 
+    @Bean
+    public VehicleDao vehicleDao(JdbcTemplate jdbcTemplate){
+        return new JdbcVehicalDaoImpl(jdbcTemplate);
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource){
+        return new JdbcTemplate(dataSource);
+    }
     @Bean
     public DataSource simlpeDataSource(){
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
