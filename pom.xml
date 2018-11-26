@@ -15,6 +15,7 @@
         <module>hibernate</module>
         <module>spring_basic</module>
         <module>spring_jdbc</module>
+        <module>springjpahome</module>
     </modules>
 
     

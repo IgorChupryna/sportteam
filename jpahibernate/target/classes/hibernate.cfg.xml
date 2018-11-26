@@ -6,19 +6,20 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.username">monty</property>
+        <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">totoadmin</property>
-        <property name="hibernate.connection.url">jdbc:mysql://10.91.63.108:3308/hiberdb</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3308/sportteam_hibernate</property>
         <property name="show_sql">true</property>
         <property name="format_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <mapping class="entity.Skill"/>
-        <mapping class="entity.Tool"/>
-        <mapping class="entity.User"/>
-        <mapping class="entity.Project"/>
-        <mapping class="entity.ServiceEvent"/>
-        <mapping class="entity.Donation"/>
-        <mapping class="entity.Comment"/>
-        <mapping class="entity.Community"/>
+        <mapping class="hibernate.model.Teacher"/>
+        <mapping class="hibernate.model.TeacherUniversity"/>
+        <mapping class="hibernate.model.TeacherAddress"/>
+        <mapping class="hibernate.model.Address"/>
+        <mapping class="hibernate.model.Director"/>
+        <mapping class="hibernate.model.DirectorAddress"/>
+        <mapping class="hibernate.model.University"/>
+        <mapping class="hibernate.model.Student"/>
+        <mapping class="hibernate.model.Subject"/>
     </session-factory>
 </hibernate-configuration>
