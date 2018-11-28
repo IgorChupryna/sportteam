@@ -16,6 +16,7 @@
         <module>spring_basic</module>
         <module>spring_jdbc</module>
         <module>springjpahome</module>
+        <module>spring_hibernate</module>
     </modules>
 
     
@@ -25,7 +26,9 @@
     <properties>
         <compiler.version>3.3</compiler.version>
         <jdbc.version>5.1.9</jdbc.version>
-        <springframework.version>5.1.2.RELEASE</springframework.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
+        <springframework.version>4.0.6.RELEASE</springframework.version>
+        <joda-time.version>2.3</joda-time.version>
     </properties>
 
     <dependencies>
