@@ -36,8 +36,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Users(id INT PRIMARY KEY, name VARCHAR(255), "
-                    + "email VARCHAR(255), phone VARCHAR(255))");
+            stmt = conn.prepareStatement("CREATE TABLE Users(id INT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), phone VARCHAR(255))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -46,8 +45,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Users_Tools(userId INT, toolId INT, "
-                    + "PRIMARY KEY(userId, toolId))");
+            stmt = conn.prepareStatement("CREATE TABLE Users_Tools(userId INT, toolId INT, PRIMARY KEY(userId, toolId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -55,8 +53,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Users_Skills(userId INT, skillId INT, "
-                    + "PRIMARY KEY(userId, skillId))");
+            stmt = conn.prepareStatement("CREATE TABLE Users_Skills(userId INT, skillId INT, PRIMARY KEY(userId, skillId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -65,8 +62,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Users_Comments(userId INT, commentId INT, "
-                    + "PRIMARY KEY(userId, commentId))");
+            stmt = conn.prepareStatement("CREATE TABLE Users_Comments(userId INT, commentId INT, PRIMARY KEY(userId, commentId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -75,8 +71,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Memberships(userId INT, communityId INT, "
-                    + "PRIMARY KEY(userId, communityId))");
+            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Memberships(userId INT, communityId INT, PRIMARY KEY(userId, communityId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -85,8 +80,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Created(userId INT, communityId INT, "
-                    + "PRIMARY KEY(userId, communityId))");
+            stmt = conn.prepareStatement("CREATE TABLE Users_Community_Created(userId INT, communityId INT, PRIMARY KEY(userId, communityId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -94,8 +88,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE User_Donation(userId INT, donationId INT, "
-                    + "PRIMARY KEY(userId, donationId))");
+            stmt = conn.prepareStatement("CREATE TABLE User_Donation(userId INT, donationId INT, PRIMARY KEY(userId, donationId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -104,8 +97,7 @@ public class UserService implements MainService<User> {
             stmt.close();
 
 
-            stmt = conn.prepareStatement("CREATE TABLE User_Service_EO(userId INT, serviceEOId INT, "
-                    + "PRIMARY KEY(userId, serviceEOId))");
+            stmt = conn.prepareStatement("CREATE TABLE User_Service_EO(userId INT, serviceEOId INT, PRIMARY KEY(userId, serviceEOId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -114,8 +106,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE User_projectsSubmitted(userId INT, projectId INT, "
-                    + "PRIMARY KEY(userId, projectId))");
+            stmt = conn.prepareStatement("CREATE TABLE User_projectsSubmitted(userId INT, projectId INT, PRIMARY KEY(userId, projectId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -123,8 +114,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE User_projectsOrganized(userId INT, projectId INT, "
-                    + "PRIMARY KEY(userId, projectId))");
+            stmt = conn.prepareStatement("CREATE TABLE User_projectsOrganized(userId INT, projectId INT, PRIMARY KEY(userId, projectId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -132,8 +122,7 @@ public class UserService implements MainService<User> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE User_projectsVolunteered(userId INT, projectId INT, "
-                    + "PRIMARY KEY(userId, projectId))");
+            stmt = conn.prepareStatement("CREATE TABLE User_projectsVolunteered(userId INT, projectId INT, PRIMARY KEY(userId, projectId))");
             stmt.executeUpdate();
             stmt.close();
 

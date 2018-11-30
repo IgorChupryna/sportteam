@@ -17,6 +17,7 @@ public class VehicleConfiguration {
         return new JdbcVehicalDaoImpl(jdbcTemplate);
     }
 
+
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource){
         return new JdbcTemplate(dataSource);

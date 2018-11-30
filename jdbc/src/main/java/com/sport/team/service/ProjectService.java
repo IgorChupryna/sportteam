@@ -36,8 +36,7 @@ public class ProjectService implements MainService<Project> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Project(id INT PRIMARY KEY,  address1 VARCHAR(255), address2 VARCHAR(255),city VARCHAR(255), dateAdded VARCHAR(255), " +
-                    "description VARCHAR(255), email VARCHAR(255),firstname  VARCHAR(255), lastname VARCHAR(255), phone VARCHAR(255), state VARCHAR(255), zip VARCHAR(255),title VARCHAR(255))");
+            stmt = conn.prepareStatement("CREATE TABLE Project(id INT PRIMARY KEY,  address1 VARCHAR(255), address2 VARCHAR(255),city VARCHAR(255), dateAdded VARCHAR(255), description VARCHAR(255), email VARCHAR(255),firstname  VARCHAR(255), lastname VARCHAR(255), phone VARCHAR(255), state VARCHAR(255), zip VARCHAR(255),title VARCHAR(255))");
 
             stmt.executeUpdate();
             stmt.close();
@@ -46,8 +45,7 @@ public class ProjectService implements MainService<Project> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Project_Donations(projectId INT, donationId INT, "
-                    + "PRIMARY KEY(projectId, donationId))");
+            stmt = conn.prepareStatement("CREATE TABLE Project_Donations(projectId INT, donationId INT, PRIMARY KEY(projectId, donationId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -55,8 +53,7 @@ public class ProjectService implements MainService<Project> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Project_Comments(projectId INT, commentId INT, "
-                    + "PRIMARY KEY(projectId, commentId))");
+            stmt = conn.prepareStatement("CREATE TABLE Project_Comments(projectId INT, commentId INT, PRIMARY KEY(projectId, commentId))");
             stmt.executeUpdate();
             stmt.close();
 
@@ -73,8 +70,7 @@ public class ProjectService implements MainService<Project> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Project_serviceEvent(projectId INT, serviceEventId INT, "
-                    + "PRIMARY KEY(projectId, serviceEventId))");
+            stmt = conn.prepareStatement("CREATE TABLE Project_serviceEvent(projectId INT, serviceEventId INT,PRIMARY KEY(projectId, serviceEventId))");
             stmt.executeUpdate();
             stmt.close();
 

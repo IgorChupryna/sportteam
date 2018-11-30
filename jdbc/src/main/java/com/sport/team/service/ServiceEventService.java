@@ -46,8 +46,7 @@ public class ServiceEventService implements MainService<ServiceEvent> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("CREATE TABLE Service_EO_community(serviceEOId INT, communityId INT, "
-                    + "PRIMARY KEY(serviceEOId, communityId))");
+            stmt = conn.prepareStatement("CREATE TABLE Service_EO_community(serviceEOId INT, communityId INT, PRIMARY KEY(serviceEOId, communityId))");
             stmt.executeUpdate();
             stmt.close();
 
