@@ -69,8 +69,8 @@ public class MainConfiguration {
     public DataSource simlpeDataSource(){
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass(Driver.class);
-        dataSource.setUrl("jdbc:mysql://10.91.63.108:3306/springjdbc_home");
-        dataSource.setUsername("monty");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc_home");
+        dataSource.setUsername("root");
         dataSource.setPassword("totoadmin");
         return  dataSource;
     }

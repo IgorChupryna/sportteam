@@ -18,6 +18,9 @@
         <module>springjdbc_home</module>
         <module>spring_hibernate</module>
         <module>springhiber_home</module>
+        <module>springmvc</module>
+        <module>springmvcannotation</module>
+        <module>springmvcvalidation</module>
     </modules>
 
     
