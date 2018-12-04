@@ -20,8 +20,6 @@ public interface MainDao<T> {
 
     void del(int id);
 
-    T findByModel(String modelName);
-
     List<T> findAll();
 
 }

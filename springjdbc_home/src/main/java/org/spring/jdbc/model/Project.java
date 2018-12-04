@@ -14,7 +14,7 @@ import java.util.List;
 public class Project {
 
 	private int id;
-	private User organizer = null;
+
 	private String address1;
 	private String address2;
 	private String city;
@@ -25,11 +25,13 @@ public class Project {
 	private String lastName;
 	private String phone;
 	private String state;
-	private User submitter = null;
 	private String zip;
+	private String title;
+
+	private User organizer = null;
+	private User submitter = null;
 	private List<User> volunteers = new ArrayList<User>();
-    private List<String> imageUrls = new ArrayList<String>();
     private List<Comment> comments = new ArrayList<Comment>();
     private List<Donation> donations = new ArrayList<Donation>();
-    private String title;
+
 }

@@ -13,12 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class ServiceEvent {
-
 	private int id;
-	private User organizer;
-	private Community community;
+	private String name;
 	private String description;
 	private Calendar date;
-	private String name;
+
+	private User organizer;
+	private Community community;
 	private List<Project> projects;
 }

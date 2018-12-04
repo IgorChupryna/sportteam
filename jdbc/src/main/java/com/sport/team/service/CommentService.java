@@ -39,15 +39,6 @@ public class CommentService implements MainService<Comment> {
             stmt.executeUpdate();
             stmt.close();
 
-            stmt = conn.prepareStatement("DROP TABLE IF EXISTS Comment_project");
-            stmt.executeUpdate();
-            stmt.close();
-
-            stmt = conn.prepareStatement("CREATE TABLE Comment_project(commentId INT, projectId INT, "
-                    + "PRIMARY KEY(commentId, projectId))");
-            stmt.executeUpdate();
-            stmt.close();
-
 
             conn.commit();
         } catch (Exception e) {

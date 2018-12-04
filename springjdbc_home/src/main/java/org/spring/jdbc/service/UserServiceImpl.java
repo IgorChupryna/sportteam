@@ -43,10 +43,6 @@ public class UserServiceImpl implements MainDao<User> {
 
     }
 
-    @Override
-    public User findByModel(String modelName) {
-        return null;
-    }
 
     @Override
     public List<User> findAll() {

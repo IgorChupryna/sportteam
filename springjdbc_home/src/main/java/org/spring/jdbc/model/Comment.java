@@ -13,8 +13,8 @@ import java.util.Calendar;
 public class Comment {
 	private int id;
 	private Calendar dateAdded;
-	private User submitter;
 	private String text;
+	private User submitter;
 	private Project project;
 
 }
