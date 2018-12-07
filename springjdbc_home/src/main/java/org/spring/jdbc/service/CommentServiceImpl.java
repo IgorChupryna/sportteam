@@ -54,7 +54,7 @@ public class CommentServiceImpl implements MainDao<Comment> {
 
     @Override
     public void set(Comment comment) {
-        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatement(ps, comment));
+        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatementUpdate(ps, comment));
         jdbcTemplate.update(DELETE_SQL_PROJECT,comment.getId());
         jdbcTemplate.update(DELETE_SQL_USER,comment.getId());
         jdbcTemplate.update(INSERT_SQL_PROJECT, comment.getProject().getId(), comment.getId());
@@ -92,6 +92,12 @@ public class CommentServiceImpl implements MainDao<Comment> {
     private void prepareStatement(PreparedStatement ps, Comment comment) throws SQLException {
         ps.setDate(1, new java.sql.Date(comment.getDateAdded().getTimeInMillis()));
         ps.setString(2, comment.getText());
+    }
+
+    private void prepareStatementUpdate(PreparedStatement ps, Comment comment) throws SQLException {
+        ps.setDate(1, new java.sql.Date(comment.getDateAdded().getTimeInMillis()));
+        ps.setString(2, comment.getText());
+        ps.setInt(3,comment.getId());
     }
 
     private void prepareStatementProjects(PreparedStatement ps, Comment comment) throws SQLException {

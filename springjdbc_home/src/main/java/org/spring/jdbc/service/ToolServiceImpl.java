@@ -41,7 +41,7 @@ public class ToolServiceImpl implements MainDao<Tool> {
 
     @Override
     public void set(Tool tool) {
-        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatement(ps, tool));
+        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatementUpdate(ps, tool));
     }
 
     @Override
@@ -66,5 +66,10 @@ public class ToolServiceImpl implements MainDao<Tool> {
 
     private void prepareStatement(PreparedStatement ps, Tool tool) throws SQLException {
         ps.setString(1, tool.getName());
+    }
+
+    private void prepareStatementUpdate(PreparedStatement ps, Tool tool) throws SQLException {
+        ps.setString(1, tool.getName());
+        ps.setInt(2,tool.getId());
     }
 }

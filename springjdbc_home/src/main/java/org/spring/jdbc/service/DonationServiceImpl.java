@@ -53,7 +53,7 @@ public class DonationServiceImpl implements MainDao<Donation> {
 
     @Override
     public void set(Donation donation) {
-        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatement(ps, donation));
+        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatementUpdate(ps, donation));
         jdbcTemplate.update(DELETE_SQL_PROJECT,donation.getId());
         jdbcTemplate.update(DELETE_SQL_USER,donation.getId());
         jdbcTemplate.update(INSERT_SQL_PROJECT, donation.getProject().getId(), donation.getId());
@@ -90,6 +90,12 @@ public class DonationServiceImpl implements MainDao<Donation> {
     private void prepareStatement(PreparedStatement ps, Donation donation) throws SQLException {
         ps.setDate(1, donation.getDateAdded());
         ps.setDouble(2, donation.getAmount());
+    }
+
+    private void prepareStatementUpdate(PreparedStatement ps, Donation donation) throws SQLException {
+        ps.setDate(1, donation.getDateAdded());
+        ps.setDouble(2, donation.getAmount());
+        ps.setInt(3,donation.getId());
     }
 
     private void prepareStatementProjects(PreparedStatement ps, Donation donation) throws SQLException {

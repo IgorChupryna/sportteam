@@ -64,7 +64,7 @@ public class ServiceEventServiceImpl implements MainDao<ServiceEvent> {
 
     @Override
     public void set(ServiceEvent serviceEvent) {
-        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatement(ps, serviceEvent));
+        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatementUpdate(ps, serviceEvent));
 
         jdbcTemplate.update(DELETE_SQL_PROJECT,serviceEvent.getId());
         jdbcTemplate.update(DELETE_SQL_USER,serviceEvent.getId());
@@ -112,6 +112,14 @@ public class ServiceEventServiceImpl implements MainDao<ServiceEvent> {
         ps.setString(2, serviceEvent.getDescription());
         ps.setDate(3, new java.sql.Date(serviceEvent.getDate().getTimeInMillis()));
     }
+
+    private void prepareStatementUpdate(PreparedStatement ps, ServiceEvent serviceEvent) throws SQLException {
+        ps.setString(1, serviceEvent.getName());
+        ps.setString(2, serviceEvent.getDescription());
+        ps.setDate(3, new java.sql.Date(serviceEvent.getDate().getTimeInMillis()));
+        ps.setInt(4,serviceEvent.getId());
+    }
+
 
 
     private void prepareStatementUser(PreparedStatement ps, ServiceEvent serviceEvent) throws SQLException {

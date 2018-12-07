@@ -42,7 +42,7 @@ public class SkillServiceImpl implements MainDao<Skill> {
 
     @Override
     public void set(Skill skill) {
-        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatement(ps, skill));
+        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatementUpdate(ps, skill));
     }
 
     @Override
@@ -60,6 +60,7 @@ public class SkillServiceImpl implements MainDao<Skill> {
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(SELECT_ALL_SQL);
         return rows.stream().map(row -> {
             Skill skill = new Skill();
+            skill.setId((Integer)row.get("id"));
             skill.setName((String) row.get("name"));
             return skill;
         }).collect(Collectors.toList());
@@ -67,5 +68,9 @@ public class SkillServiceImpl implements MainDao<Skill> {
 
     private void prepareStatement(PreparedStatement ps, Skill skill) throws SQLException {
         ps.setString(1, skill.getName());
+    }
+    private void prepareStatementUpdate(PreparedStatement ps, Skill skill) throws SQLException {
+        ps.setString(1, skill.getName());
+        ps.setInt(2,skill.getId());
     }
 }

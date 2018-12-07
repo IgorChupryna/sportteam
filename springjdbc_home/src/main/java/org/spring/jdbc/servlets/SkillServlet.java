@@ -58,14 +58,19 @@ public class SkillServlet extends HttpServlet {
         }
 
         skill.setName(name);
-
-            if (skill.getName() == null || skill.getName() == "") {
-                skillService.del(skill);
-            } else {
-                skillService.set(skill);}
-
-            doGet(request, response);
+        String counter = request.getParameter("counter");
+        System.out.println(counter);
+        if (skill.getName() == null || skill.getName() == "") {
+            skillService.del(skill);
+        } else if (idParam == null || idParam.isEmpty()) {
+                //String counter = request.getParameter("counter");
+                //System.out.println(counter);
+        } else {
+            skillService.set(skill);
         }
 
+        doGet(request, response);
     }
+
+}
 

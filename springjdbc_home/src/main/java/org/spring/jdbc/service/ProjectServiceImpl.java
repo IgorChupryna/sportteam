@@ -93,7 +93,7 @@ public class ProjectServiceImpl implements MainDao<Project> {
 
     @Override
     public void set(Project project) {
-        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatement(ps, project));
+        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatementUpdate(ps, project));
 
         jdbcTemplate.update(DELETE_SQL_COMMENTS,project.getId());
         jdbcTemplate.update(DELETE_SQL_DONATION,project.getId());
@@ -172,6 +172,22 @@ public class ProjectServiceImpl implements MainDao<Project> {
         ps.setString(10,project.getState());
         ps.setString(11,project.getTitle());
         ps.setString(12,project.getZip());
+    }
+
+    private void prepareStatementUpdate(PreparedStatement ps, Project project) throws SQLException {
+        ps.setString(1,project.getAddress1());
+        ps.setString(2,project.getAddress2());
+        ps.setDate(3,new java.sql.Date(project.getDateAdded().getTimeInMillis()));
+        ps.setString(4,project.getPhone());
+        ps.setString(5,project.getEmail());
+        ps.setString(6,project.getCity());
+        ps.setString(7,project.getDescription());
+        ps.setString(8,project.getFirstName());
+        ps.setString(9,project.getLastName());
+        ps.setString(10,project.getState());
+        ps.setString(11,project.getTitle());
+        ps.setString(12,project.getZip());
+        ps.setInt(13,project.getId());
     }
 
 

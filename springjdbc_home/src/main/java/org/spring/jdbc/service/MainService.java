@@ -24,8 +24,6 @@ public class MainService {
         jdbcTemplate.execute("CREATE TABLE Project_Donations(projectId INT, donationId INT, PRIMARY KEY(projectId, donationId))");
         jdbcTemplate.execute("DROP TABLE IF EXISTS Project_Comments");
         jdbcTemplate.execute("CREATE TABLE Project_Comments(projectId INT, commentId INT, PRIMARY KEY(projectId, commentId))");
-        jdbcTemplate.execute("DROP TABLE IF EXISTS Project_imageUrls");
-        jdbcTemplate.execute("CREATE TABLE Project_imageUrls(id INT PRIMARY KEY, projectId INT, path VARCHAR(255))");
         jdbcTemplate.execute("DROP TABLE IF EXISTS Project_serviceEvent");
         jdbcTemplate.execute("CREATE TABLE Project_serviceEvent(projectId INT, serviceEventId INT,PRIMARY KEY(projectId, serviceEventId))");
         jdbcTemplate.execute("DROP TABLE IF EXISTS Service_EO");

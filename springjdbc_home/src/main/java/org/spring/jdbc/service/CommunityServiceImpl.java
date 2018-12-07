@@ -50,7 +50,7 @@ public class CommunityServiceImpl implements MainDao<Community> {
 
     @Override
     public void set(Community community) {
-        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatement(ps, community));
+        jdbcTemplate.update(UPDATE_SQL, ps -> prepareStatementUpdate(ps, community));
         jdbcTemplate.update(DELETE_SQL_USER,community.getId());
         jdbcTemplate.update(INSERT_SQL_USER, community.getCreator().getId(), community.getId());
     }
@@ -83,6 +83,11 @@ public class CommunityServiceImpl implements MainDao<Community> {
         ps.setString(1, community.getName());
     }
 
+
+    private void prepareStatementUpdate(PreparedStatement ps, Community community) throws SQLException {
+        ps.setString(1, community.getName());
+        ps.setInt(2,community.getId());
+    }
 
 
     private void prepareStatementCreator(PreparedStatement ps, Community community) throws SQLException {
