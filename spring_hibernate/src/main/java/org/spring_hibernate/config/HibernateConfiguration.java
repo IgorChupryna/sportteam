@@ -42,7 +42,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] {"org.spring_hibernate.model"});
+        sessionFactory.setPackagesToScan(new String[] {"org.spring_hibernate.models"});
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

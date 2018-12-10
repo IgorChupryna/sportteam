@@ -70,9 +70,9 @@
                 <tfoot>
                 <tr>
                     <td colspan="5" style=" text-align: left;">
-
+                        <input name="counter" id="counter1" type="hidden" value="1"/>
                         <input type="button" class="btn btn-md btn-primary " id="addrow" value="Add Row"/>
-                        <input type="submit" class="btn btn-md btn-success " value="INSERT TO DB"/>
+                        <input type="submit" class="btn btn-md btn-success " id="insert" value="INSERT TO DB"/>
                     </td>
 
                 </tr>
@@ -92,14 +92,21 @@
     $(document).ready(function () {
         var counter = 2;
 
+
+        $("#insert").on("click", function () {
+            var length = $(document).getElementById("counter1");
+            length.value = counter;
+        });
         $("#addrow").on("click", function () {
             var newRow = $("<tr>");
             var cols = "";
 
-            cols += '<td><input type="text" class="form-control" name="name' + counter + '"/></td>';
 
+
+            cols += '<td><input type="text" class="form-control" name="name' + counter + '"/></td>';
             cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
-            cols += '<td><input name="counter" type="hidden" value="'+counter+'"/></td>';
+
+
 
             newRow.append(cols);
             $("table.order-list").append(newRow);

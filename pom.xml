@@ -22,6 +22,7 @@
         <module>springmvcannotation</module>
         <module>springmvcvalidation</module>
         <module>springmvcjs</module>
+        <module>springmvc_work</module>
     </modules>
 
 
@@ -32,7 +33,7 @@
         <compiler.version>3.3</compiler.version>
         <jdbc.version>5.1.9</jdbc.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
-        <springframework.version>4.0.6.RELEASE</springframework.version>
+        <springframework.version>4.3.1.RELEASE</springframework.version>
         <joda-time.version>2.3</joda-time.version>
         <jackson.version>2.7.5</jackson.version>
     </properties>
