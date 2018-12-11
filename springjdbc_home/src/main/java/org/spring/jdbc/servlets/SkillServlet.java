@@ -1,6 +1,5 @@
 package org.spring.jdbc.servlets;
 
-
 import org.spring.jdbc.config.MainConfiguration;
 import org.spring.jdbc.model.Skill;
 
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -58,14 +58,27 @@ public class SkillServlet extends HttpServlet {
         }
 
         skill.setName(name);
-        String counter = request.getParameter("counter");
-        System.out.println(counter);
-        if (skill.getName() == null || skill.getName() == "") {
+
+
+        if (idParam == null || idParam.isEmpty()) {
+            Integer counter = Integer.parseInt(request.getParameter("counter"));
+            String[] skills = new String[counter];
+            List<Skill> list = new ArrayList<>();
+            for (int i = 0; i < counter; i++) {
+                skills[i] = request.getParameter("name" + i);
+                if (!skills[i].isEmpty()) {
+                    skill.setName(skills[i]);
+                    System.out.println(skills[i]);
+                    list.add(skill);
+                }
+            }
+            skillService.add(list);
+
+        } else if (skill.getName() == null || skill.getName() == "") {
+
             skillService.del(skill);
-        } else if (idParam == null || idParam.isEmpty()) {
-                //String counter = request.getParameter("counter");
-                //System.out.println(counter);
         } else {
+
             skillService.set(skill);
         }
 

@@ -25,26 +25,24 @@
                 <th>Delete</th>
             </tr>
             <c:forEach items="${skillList}" var="skill">
-
                 <tr>
                     <td>${skill.id}</td>
                     <td>
                         <form action="skill" method="POST">
-                            <input name="id" id="id" type="hidden" value=${skill.id}/>
-                            <input name="name" id="name" type="text" value=${skill.name}/>
+                            <input name="id" id="id" type="hidden" value="${skill.id}"/>
+                            <input name="name" id="name" type="text" value="${skill.name}"/>
                             <input type="submit" value="Edit" name="edit"/>
                         </form>
                     </td>
                     <td>
                         <form action="skill" method="POST">
-                            <input name="id" type="hidden" value=${skill.id}/>
+                            <input name="id" type="hidden" value="${skill.id}"/>
                             <input type="submit" value="Delete"/>
                         </form>
                     </td>
                 </tr>
             </c:forEach>
         </table>
-
     </div>
 
     <h3>FORM ADD NEW SKILLS</h3>
@@ -60,7 +58,7 @@
                 <tbody>
                 <tr>
                     <td class="col-sm-10">
-                        <input type="text" name="name1" class="form-control"/>
+                        <input type="text" name="name0" class="form-control"/>
                     </td>
                     <td class="col-sm-1"><a class="deleteRow"></a>
 
@@ -90,12 +88,11 @@
 
 <script>
     $(document).ready(function () {
-        var counter = 2;
+        var counter = 1;
 
 
         $("#insert").on("click", function () {
-            var length = $(document).getElementById("counter1");
-            length.value = counter;
+            document.getElementById("counter1").value = counter;
         });
         $("#addrow").on("click", function () {
             var newRow = $("<tr>");
