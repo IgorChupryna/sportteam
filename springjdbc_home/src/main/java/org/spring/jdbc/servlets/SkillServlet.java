@@ -68,7 +68,7 @@ public class SkillServlet extends HttpServlet {
                 skills[i] = request.getParameter("name" + i);
                 if (!skills[i].isEmpty()) {
                     skill.setName(skills[i]);
-                    System.out.println(skills[i]);
+                    System.out.println(skills[i]+" "+skill.getName());
                     list.add(skill);
                 }
             }

@@ -31,6 +31,10 @@ public class JdbcVehicalDaoImpl implements VehicleDao {
     public void insert(Vehicle vehicle) {
         jdbcTemplate.update(INSERT_SQL, vehicle.getColor(), vehicle.getWheel(), vehicle.getSeat(), vehicle.getVehicleNo());
     }
+    @Override
+    public void insert(Collection<Vehicle> vehicles) {
+        jdbcTemplate.batchUpdate(INSERT_SQL, vehicles, vehicles.size(), this::prepareStatement);
+    }
 
     @Override
     public void update(Vehicle vehicle) {
@@ -60,10 +64,7 @@ public class JdbcVehicalDaoImpl implements VehicleDao {
         }).collect(Collectors.toList());
     }
 
-    @Override
-    public void insert(Collection<Vehicle> vehicles) {
-        jdbcTemplate.batchUpdate(INSERT_SQL, vehicles, vehicles.size(), this::prepareStatement);
-    }
+
 
     @Override
     public String getColor(String vehicleNo) {
