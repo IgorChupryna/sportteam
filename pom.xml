@@ -25,6 +25,7 @@
         <module>springmvc_work</module>
         <module>springdata</module>
         <module>springdata_home</module>
+        <module>springsecuritynew</module>
     </modules>
 
 
@@ -35,10 +36,11 @@
         <compiler.version>3.3</compiler.version>
         <jdbc.version>5.1.9</jdbc.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
-        <springframework.version>4.3.4.RELEASE</springframework.version>
+        <springframework.version>4.3.1.RELEASE</springframework.version>
         <joda-time.version>2.3</joda-time.version>
         <jackson.version>2.7.5</jackson.version>
         <spring.data>1.3.4.RELEASE</spring.data>
+        <springsecurity.version>4.0.1.RELEASE</springsecurity.version>
     </properties>
 
     <dependencies>
@@ -81,7 +83,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
-            <scope>provided</scope>
+
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -98,6 +100,37 @@
             <artifactId>lombok</artifactId>
             <version>1.16.20</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.5</version>
         </dependency>
     </dependencies>
 

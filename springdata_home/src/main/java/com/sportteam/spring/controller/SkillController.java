@@ -5,6 +5,7 @@ import com.sportteam.spring.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +15,14 @@ public class SkillController {
     
     @Autowired
     SkillService skillService;
-    
-    
+
+    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+    public String homePage(ModelMap model) {
+
+        return "home";
+    }
+
+
     @RequestMapping(value = "/skill/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Skill getAllUsers(@PathVariable Long id) {
@@ -34,11 +41,8 @@ public class SkillController {
 
         skills = skillService.getAllSkills();
 
-
         model.addAttribute("skillList",skills);
         model.addAttribute("errorString", errorString);
-
-
 
         return "skills";
     }
