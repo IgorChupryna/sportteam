@@ -16,6 +16,6 @@ public class Community {
 	private Long id;
 	@Column(name = "name")
 	private String name;
-
-	private User creator = null;
+//
+//	private User creator = null;
 }

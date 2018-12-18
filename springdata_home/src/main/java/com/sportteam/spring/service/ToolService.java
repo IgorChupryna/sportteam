@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ToolService {
     @Autowired
-    private ToolRepository<Tool> toolRepository;
+    private ToolRepository toolRepository;
 
     @Transactional
     public List<Tool> getAllTools() {

@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class CommunityService {
     @Autowired
-    private CommunityRepository<Community> communityRepository;
+    private CommunityRepository communityRepository;
 
     @Transactional
     public List<Community> getAllCommunitys() {

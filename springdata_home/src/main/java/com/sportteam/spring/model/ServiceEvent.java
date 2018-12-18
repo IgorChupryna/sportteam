@@ -26,8 +26,8 @@ public class ServiceEvent {
 
 	@Column(name = "date")
 	private Calendar date;
-
-	private User organizer;
-	private Community community;
-	private List<Project> projects;
+//
+//	private User organizer;
+//	private Community community;
+//	private List<Project> projects;
 }

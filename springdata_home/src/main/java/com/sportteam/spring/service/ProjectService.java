@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ProjectService {
     @Autowired
-    private ProjectRepository<Project> projectRepository;
+    private ProjectRepository projectRepository;
 
     @Transactional
     public List<Project> getAllProjects() {
@@ -19,8 +19,8 @@ public class ProjectService {
     }
 
     @Transactional
-    public List<Project> findByName(String name) {
-        return projectRepository.findByName(name);
+    public List<Project> findByName(String title) {
+        return projectRepository.findByTitle(title);
     }
 
     @Transactional(readOnly = true)

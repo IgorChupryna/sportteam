@@ -26,15 +26,15 @@ public class User {
 	@Column(name = "phone")
 	private String phone;
 
-	private List<Skill> skills;
-	private List<Tool> tools;
-	private List<Comment> comments ;
-	private List<Community> communityMemberships;
-	private List<Community> communitiesCreated;
-	private List<Donation> donations ;
-	private List<Project> projectsSubmitted ;
-	private List<Project> projectsOrganized ;
-	private List<Project> projectsVolunteered;
-	private List<ServiceEvent> serviceEventsOrganized ;
+//	private List<Skill> skills;
+//	private List<Tool> tools;
+//	private List<Comment> comments ;
+//	private List<Community> communityMemberships;
+//	private List<Community> communitiesCreated;
+//	private List<Donation> donations ;
+//	private List<Project> projectsSubmitted ;
+//	private List<Project> projectsOrganized ;
+//	private List<Project> projectsVolunteered;
+//	private List<ServiceEvent> serviceEventsOrganized ;
 
 }

@@ -21,7 +21,7 @@ public class Donation {
 	@Column(name = "date")
 	private Date dateAdded;
 
-
-	private Project project;
-	private User user;
+//
+//	private Project project;
+//	private User user;
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class ServiceEventService {
     @Autowired
-    private ServiceEventRepository<ServiceEvent> serviceEventRepository;
+    private ServiceEventRepository serviceEventRepository;
 
     @Transactional
     public List<ServiceEvent> getAllServiceEvents() {

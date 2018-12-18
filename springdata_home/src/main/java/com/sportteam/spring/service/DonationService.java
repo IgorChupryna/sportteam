@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class DonationService {
     @Autowired
-    private DonationRepository<Donation> commentRepository;
+    private DonationRepository commentRepository;
 
     @Transactional
     public List<Donation> getAllDonations() {
@@ -19,8 +19,8 @@ public class DonationService {
     }
 
     @Transactional
-    public List<Donation> findByName(String name) {
-        return commentRepository.findByName(name);
+    public List<Donation> findByName(Long id) {
+        return commentRepository.findById(id);
     }
 
     @Transactional(readOnly = true)

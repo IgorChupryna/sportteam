@@ -20,8 +20,8 @@ public class Comment {
 	private Calendar dateAdded;
 	@Column(name = "text")
 	private String text;
-
-	private User submitter;
-	private Project project;
+//
+//	private User submitter;
+//	private Project project;
 
 }

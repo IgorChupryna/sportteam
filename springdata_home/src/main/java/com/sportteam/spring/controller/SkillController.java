@@ -4,24 +4,18 @@ import com.sportteam.spring.model.Skill;
 import com.sportteam.spring.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class SkillController {
     
     @Autowired
     SkillService skillService;
-
-    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-    public String homePage(ModelMap model) {
-
-        return "home";
-    }
-
 
     @RequestMapping(value = "/skill/{id}", method = RequestMethod.GET)
     public @ResponseBody
@@ -36,6 +30,7 @@ public class SkillController {
 
     @RequestMapping(value = "/skill", method = RequestMethod.GET)
     public String getAll(Model model) {
+        model.addAttribute("login", SecurityController.getLoginName());
         List<Skill> skills = null;
         String errorString = null;
 

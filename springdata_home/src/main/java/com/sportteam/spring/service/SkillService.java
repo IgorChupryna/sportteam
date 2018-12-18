@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class SkillService {
     @Autowired
-    private SkillRepository<Skill> skillRepository;
+    private SkillRepository skillRepository;
 
     @Transactional
     public List<Skill> getAllSkills() {

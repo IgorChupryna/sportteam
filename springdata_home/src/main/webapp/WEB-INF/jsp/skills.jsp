@@ -3,9 +3,7 @@
 <html>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<link href="<c:url value='/static/css/mycss.css'/>" rel="stylesheet">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 <head>
     <title>Title</title>
 </head>
@@ -16,71 +14,88 @@
 <h3>Skill List</h3>
 
 <p style="color: red;">${errorString}</p>
-<div class="container">
-    <div class="first-box">
-        <table border="3" cellpadding="10" cellspacing="5">
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Delete</th>
-            </tr>
-            <c:forEach items="${skillList}" var="skill">
-                <tr>
-                    <td>${skill.id}</td>
-                    <td>
-                        <form action="skill" method="POST">
-                            <input name="id" id="id" type="hidden" value="${skill.id}"/>
-                            <input name="name" id="name" type="text" value="${skill.name}"/>
-                            <input type="submit" value="Edit" name="edit"/>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="skill" method="POST">
-                            <input name="id" type="hidden" value="${skill.id}"/>
-                            <input type="submit" value="Delete"/>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
 
-    <h3>FORM ADD NEW SKILLS</h3>
 
-    <div class="second-box">
-        <form action="skill" method="POST">
-            <table id="myTable" class=" table order-list">
-                <thead>
-                <tr>
-                    <td>Name</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="col-sm-10">
-                        <input type="text" name="name0" class="form-control"/>
-                    </td>
-                    <td class="col-sm-1"><a class="deleteRow"></a>
 
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="5" style=" text-align: left;">
-                        <input name="counter" id="counter1" type="hidden" value="1"/>
-                        <input type="button" class="btn btn-md btn-primary " id="addrow" value="Add Row"/>
-                        <input type="submit" class="btn btn-md btn-success " id="insert" value="INSERT TO DB"/>
-                    </td>
+<table>
+    <tr>
+        <td>
 
-                </tr>
+            <table border="3" cellpadding="10" cellspacing="5">
                 <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Delete</th>
                 </tr>
-                </tfoot>
+                <c:forEach items="${skillList}" var="skill">
+                    <tr>
+                        <td>${skill.id}</td>
+                        <td>
+                            <form action="skill" method="POST">
+                                <input name="id" id="id" type="hidden" value="${skill.id}"/>
+                                <input name="name" id="name" type="text" value="${skill.name}"/>
+                                <input type="submit" value="Edit" name="edit"/>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="skill" method="POST">
+                                <input name="id" type="hidden" value="${skill.id}"/>
+                                <input type="submit" value="Delete"/>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
             </table>
-        </form>
-    </div>
-</div>
+
+
+        </td>
+
+        <td>
+
+            <form action="skill" method="POST">
+                <h3>Insert form</h3>
+                <table id="myTable" class=" table order-list" border="3" cellpadding="2" cellspacing="1">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="col-sm-10">
+                            <input type="text" name="name0" class="form-control"/>
+                        </td>
+                        <td class="col-sm-1"><a class="deleteRow"></a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="5" style=" text-align: left;">
+                            <input name="counter" id="counter1" type="hidden" value="1"/>
+                            <input type="button" class="btn btn-md btn-primary " id="addrow" value="Add Row"/>
+                            <input type="submit" class="btn btn-md btn-success " id="insert" value="INSERT TO DB"/>
+                        </td>
+
+                    </tr>
+                    <tr>
+                    </tr>
+                    </tfoot>
+                </table>
+            </form>
+
+
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+
+
 <jsp:include page="/WEB-INF/jsp/_footer.jsp"></jsp:include>
 
 

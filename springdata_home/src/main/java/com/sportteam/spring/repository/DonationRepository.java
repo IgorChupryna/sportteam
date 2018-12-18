@@ -2,9 +2,11 @@ package com.sportteam.spring.repository;
 
 import com.sportteam.spring.model.Donation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface DonationRepository<P> extends JpaRepository<Donation,Long> {
-    List<Donation> findByName(String name);
+@Repository
+public interface DonationRepository extends JpaRepository<Donation,Long> {
+    List<Donation> findById(Long id);
 }

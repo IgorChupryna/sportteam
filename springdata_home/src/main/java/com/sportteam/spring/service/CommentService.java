@@ -12,16 +12,16 @@ import java.util.List;
 @Service
 public class CommentService {
     @Autowired
-    private CommentRepository<Comment> commentRepository;
+    private CommentRepository commentRepository;
 
     @Transactional
     public List<Comment> getAllComments() {
-        return (List<Comment>) commentRepository.findAll();
+        return  commentRepository.findAll();
     }
 
     @Transactional
-    public List<Comment> findByName(String name) {
-        return commentRepository.findByName(name);
+    public List<Comment> findById(Integer id) {
+        return commentRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
