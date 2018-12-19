@@ -29,14 +29,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable().authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/skill", "/other", "/project").permitAll()
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA') ")
                 .and()
+                .exceptionHandling().accessDeniedPage("/unauthorized")
+                .and()
+                .headers().frameOptions().disable()
+                .and()
         .formLogin()
-                .loginPage("/login")
+                .loginPage("/home")
                 .loginProcessingUrl("/j_spring_security_check")
                 .failureUrl("/login?error")
                 .usernameParameter("j_login")
@@ -47,9 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
-                .invalidateHttpSession(true)
-                .and()
-        .exceptionHandling().accessDeniedPage("/ACCESS_DENIED");
+                .invalidateHttpSession(true);
 
     }
 

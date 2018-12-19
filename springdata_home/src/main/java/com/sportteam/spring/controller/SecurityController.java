@@ -21,37 +21,27 @@ public class SecurityController {
     SecurityService securityService;
 
     @RequestMapping
-    public String loginPage(Model model) {
-        String login = null;
-
-        Object sc = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if(sc instanceof User){
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            login = user.getUsername();
-        }
-
-
-        model.addAttribute("login", login);
-        return "first";
+    public String loginPage() {
+        return "/";
     }
 
-    @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/", "/login","/home" }, method = RequestMethod.GET)
     public String homePage(Model model) {
-        //model.addAttribute("login", getLoginName());
+        model.addAttribute("login", getLoginName());
         return "home";
     }
 
     @RequestMapping(value = {  "/other" }, method = RequestMethod.GET)
     public String otherPage(Model model) {
-        model.addAttribute("login", getLoginName());
+        //model.addAttribute("login", getLoginName());
         return "other";
     }
+
 
     @RequestMapping("/unauthorized")
     public String unauthorized(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("login", user.getUsername());
+       // model.addAttribute("login", user.getUsername());
         return "unauthorized";
     }
 

@@ -30,7 +30,7 @@ public class SkillController {
 
     @RequestMapping(value = "/skill", method = RequestMethod.GET)
     public String getAll(Model model) {
-        model.addAttribute("login", SecurityController.getLoginName());
+       // model.addAttribute("login", SecurityController.getLoginName());
         List<Skill> skills = null;
         String errorString = null;
 
