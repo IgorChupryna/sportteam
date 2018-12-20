@@ -20,16 +20,14 @@ public class SecurityController {
     @Autowired
     SecurityService securityService;
 
-    @RequestMapping
-    public String loginPage() {
-        return "/";
-    }
 
-    @RequestMapping(value = { "/", "/login","/home" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/home","/login" }, method = RequestMethod.GET)
     public String homePage(Model model) {
         model.addAttribute("login", getLoginName());
         return "home";
     }
+
+
 
     @RequestMapping(value = {  "/other" }, method = RequestMethod.GET)
     public String otherPage(Model model) {
@@ -50,7 +48,7 @@ public class SecurityController {
                          @RequestParam String password,
                          @RequestParam(required = false) String email,
                          @RequestParam(required = false) String phone,
-                         Model model, @RequestParam String options) {
+                         Model model) {
         if (securityService.existsByLogin(login)) {
             model.addAttribute("exists", true);
             return "register";

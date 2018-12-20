@@ -28,6 +28,11 @@ public class Security {
     @Column
     private String phone;
 
+    public Security(String login,  UserRole role) {
+        this.setLogin(login);
+        this.setRole(role);
+    }
+
     public Security(String login, String password, UserRole role, String email, String phone) {
         this.login = login;
         this.password = password;

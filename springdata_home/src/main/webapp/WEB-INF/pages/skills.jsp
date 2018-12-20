@@ -8,8 +8,8 @@
     <title>Title</title>
 </head>
 <body>
-<jsp:include page="/WEB-INF/jsp/_header.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/jsp/_menu.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/pages/_header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/pages/_menu.jsp"></jsp:include>
 
 <h3>Skill List</h3>
 
@@ -96,7 +96,7 @@
 
 
 
-<jsp:include page="/WEB-INF/jsp/_footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/pages/_footer.jsp"></jsp:include>
 
 
 </body>

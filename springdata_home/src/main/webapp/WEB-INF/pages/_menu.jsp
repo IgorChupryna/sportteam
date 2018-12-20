@@ -23,6 +23,12 @@
                 </c:if>
             </form>
         </c:if>
+        <c:if test="${login ne null}">
+            <c:url value="/update" var="updateUrl"/>
+            <c:url value="/logout" var="logoutUrl"/>
+            <li><p class="navbar-text">Welcome, <a href=${updateUrl}>${login}</a> , <a
+                    href="${logoutUrl}">logout</a></p></li>
+        </c:if>
     </div>
 </div>
 <div style="padding: 5px;">
