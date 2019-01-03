@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.sportteam.spring.controller.SecurityController.getLoginName;
@@ -25,8 +26,8 @@ public class SkillController {
     SkillService skillService;
 
     @RequestMapping(value = "/skill/{id}", method = RequestMethod.GET)
-    public @ResponseBody
-    String getSkillById(Model model,@PathVariable Long id) {
+     @ResponseBody
+    public String getSkillById(Model model,@PathVariable Long id) {
         model.addAttribute("login", getLoginName());
         List<Skill> skills = null;
         String errorString = null;
@@ -40,6 +41,7 @@ public class SkillController {
     }
 
     @RequestMapping(value = "/skillByName/{name}", method = RequestMethod.GET)
+    @ResponseBody
     public String getSkillByName(Model model,@PathVariable String name) {
         model.addAttribute("login", getLoginName());
         List<Skill> skills = null;
@@ -68,27 +70,68 @@ public class SkillController {
         return "skills";
     }
 
-    @RequestMapping(value = "/skill/{id}", method = RequestMethod.DELETE)
-    public HttpStatus deletePersnone(@PathVariable Long id) {
+
+
+    @RequestMapping(value = "/skill/delete", method = RequestMethod.POST)
+    public String delete(Model model, @RequestParam(required = false) Long id, @RequestParam(required = false) String name) {
+        model.addAttribute("login", getLoginName());
+
+        List<Skill> skills = null;
+        String errorString = null;
+
         skillService.deleteSkill(id);
-        return HttpStatus.NO_CONTENT;
+
+        skills = skillService.getAllSkills();
+
+        model.addAttribute("skillList",skills);
+        model.addAttribute("errorString", errorString);
+
+        return "skills";
     }
 
-    @RequestMapping(value = "/skill", method = RequestMethod.POST)
-    public String update(@RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String login = user.getUsername();
-        Security securityUser = securityService.getUserByLogin(login);
-        securityUser.setEmail(email);
-        securityUser.setPhone(phone);
-        return "redirect:/";
+    @RequestMapping(value = "/skill/update", method = RequestMethod.POST)
+    public String update(Model model, @RequestParam(required = false) Long id, @RequestParam(required = false) String name) {
+        model.addAttribute("login", getLoginName());
+
+        List<Skill> skills = null;
+        String errorString = null;
+
+        Skill skill = skillService.getById(id);
+        skill.setName(name);
+
+        skillService.updateSkill(skill);
+
+
+        skills = skillService.getAllSkills();
+
+        model.addAttribute("skillList",skills);
+        model.addAttribute("errorString", errorString);
+
+        return "skills";
     }
 
-    @RequestMapping(value = "/skill", method = RequestMethod.PUT)
-    public HttpStatus updateSkill(@RequestBody Skill skill) {
-        return skillService.updateSkill(skill) ? HttpStatus.ACCEPTED : HttpStatus.BAD_REQUEST;
+    @RequestMapping(value = "/skill/insert", method = RequestMethod.POST)
+    public String insert(Model model, @RequestParam(required = false) Long id,
+                         @RequestParam(required = false) String name0) {
+        model.addAttribute("login", getLoginName());
+
+
+        String errorString = null;
+
+        List<Skill> skills = null;
+
+
+
+        Skill skill = new Skill();
+        skill.setName(name0);
+        skillService.addSkill(skill);
+
+        skills = skillService.getAllSkills();
+
+        model.addAttribute("skillList",skills);
+        model.addAttribute("errorString", errorString);
+
+        return "skills";
     }
-    
-    
     
 }

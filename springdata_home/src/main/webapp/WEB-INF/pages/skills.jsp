@@ -31,14 +31,14 @@
                     <tr>
                         <td>${skill.id}</td>
                         <td>
-                            <form action="skill" method="POST">
+                            <form action="/skill/update" method="POST">
                                 <input name="id" id="id" type="hidden" value="${skill.id}"/>
                                 <input name="name" id="name" type="text" value="${skill.name}"/>
                                 <input type="submit" value="Edit" name="edit"/>
                             </form>
                         </td>
                         <td>
-                            <form action="skill" method="POST">
+                            <form action="/skill/delete" method="POST">
                                 <input name="id" type="hidden" value="${skill.id}"/>
                                 <input type="submit" value="Delete"/>
                             </form>
@@ -52,7 +52,7 @@
 
         <td>
 
-            <form action="skill" method="POST">
+            <form action="/skill/insert" method="POST">
                 <h3>Insert form</h3>
                 <table id="myTable" class=" table order-list" border="3" cellpadding="2" cellspacing="1">
                     <thead>

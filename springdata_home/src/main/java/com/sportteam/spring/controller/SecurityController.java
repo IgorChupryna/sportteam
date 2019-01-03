@@ -43,6 +43,38 @@ public class SecurityController {
         return "unauthorized";
     }
 
+
+    @RequestMapping(value = "/update")
+    public String update(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String login = user.getUsername();
+
+        Security dbUser = securityService.getUserByLogin(login);
+
+        model.addAttribute("login", login);
+        model.addAttribute("roles", user.getAuthorities());
+        model.addAttribute("email", dbUser.getEmail());
+        model.addAttribute("phone", dbUser.getPhone());
+
+        return "update";
+    }
+
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String login = user.getUsername();
+
+        Security dbUser = securityService.getUserByLogin(login);
+        dbUser.setEmail(email);
+        dbUser.setPhone(phone);
+
+        securityService.updateSecurity(dbUser);
+
+        return "redirect:/";
+    }
+
+
     @RequestMapping(value = "/newuser", method = RequestMethod.POST)
     public String update(@RequestParam String login,
                          @RequestParam String password,
